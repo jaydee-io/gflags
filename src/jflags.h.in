@@ -55,7 +55,7 @@
 //       ./foo --noverbose --start=5 --end=100
 //
 // For more details, see
-//    doc/gflags.html
+//    doc/jflags.html
 //
 // --- A note about thread-safety:
 //
@@ -66,7 +66,7 @@
 //   (or, when referring to a class, methods of this class)
 //   concurrently.
 // thread-hostile: it is not safe for multiple threads to call this
-//   routine (or methods of this class) concurrently.  In gflags,
+//   routine (or methods of this class) concurrently.  In jflags,
 //   most thread-hostile routines are intended to be called early in,
 //   or even before, main() -- that is, before threads are spawned.
 // thread-compatible: it is safe for multiple threads to read from
@@ -75,26 +75,26 @@
 //   other thread is writing to the variable or calling non-const
 //   methods of this class.
 
-#ifndef GFLAGS_GFLAGS_H_
-#define GFLAGS_GFLAGS_H_
+#ifndef JFLAGS_JFLAGS_H_
+#define JFLAGS_JFLAGS_H_
 
 #include <string>
 #include <vector>
 
-#include "gflags_declare.h" // IWYU pragma: export
+#include "jflags_declare.h" // IWYU pragma: export
 
 
 // We always want to export variables defined in user code
-#ifndef GFLAGS_DLL_DEFINE_FLAG
+#ifndef JFLAGS_DLL_DEFINE_FLAG
 #  ifdef _MSC_VER
-#    define GFLAGS_DLL_DEFINE_FLAG __declspec(dllexport)
+#    define JFLAGS_DLL_DEFINE_FLAG __declspec(dllexport)
 #  else
-#    define GFLAGS_DLL_DEFINE_FLAG
+#    define JFLAGS_DLL_DEFINE_FLAG
 #  endif
 #endif
 
 
-namespace GFLAGS_NAMESPACE {
+namespace JFLAGS_NAMESPACE {
 
 
 // --------------------------------------------------------------------
@@ -126,18 +126,18 @@ namespace GFLAGS_NAMESPACE {
 // Returns true if successfully registered, false if not (because the
 // first argument doesn't point to a command-line flag, or because a
 // validator is already registered for this flag).
-extern GFLAGS_DLL_DECL bool RegisterFlagValidator(const bool*        flag, bool (*validate_fn)(const char*, bool));
-extern GFLAGS_DLL_DECL bool RegisterFlagValidator(const int32*       flag, bool (*validate_fn)(const char*, int32));
-extern GFLAGS_DLL_DECL bool RegisterFlagValidator(const uint32*      flag, bool (*validate_fn)(const char*, uint32));
-extern GFLAGS_DLL_DECL bool RegisterFlagValidator(const int64*       flag, bool (*validate_fn)(const char*, int64));
-extern GFLAGS_DLL_DECL bool RegisterFlagValidator(const uint64*      flag, bool (*validate_fn)(const char*, uint64));
-extern GFLAGS_DLL_DECL bool RegisterFlagValidator(const double*      flag, bool (*validate_fn)(const char*, double));
-extern GFLAGS_DLL_DECL bool RegisterFlagValidator(const std::string* flag, bool (*validate_fn)(const char*, const std::string&));
+extern JFLAGS_DLL_DECL bool RegisterFlagValidator(const bool*        flag, bool (*validate_fn)(const char*, bool));
+extern JFLAGS_DLL_DECL bool RegisterFlagValidator(const int32*       flag, bool (*validate_fn)(const char*, int32));
+extern JFLAGS_DLL_DECL bool RegisterFlagValidator(const uint32*      flag, bool (*validate_fn)(const char*, uint32));
+extern JFLAGS_DLL_DECL bool RegisterFlagValidator(const int64*       flag, bool (*validate_fn)(const char*, int64));
+extern JFLAGS_DLL_DECL bool RegisterFlagValidator(const uint64*      flag, bool (*validate_fn)(const char*, uint64));
+extern JFLAGS_DLL_DECL bool RegisterFlagValidator(const double*      flag, bool (*validate_fn)(const char*, double));
+extern JFLAGS_DLL_DECL bool RegisterFlagValidator(const std::string* flag, bool (*validate_fn)(const char*, const std::string&));
 
 // Convenience macro for the registration of a flag validator
 #define DEFINE_validator(name, validator) \
     static const bool name##_validator_registered = \
-            GFLAGS_NAMESPACE::RegisterFlagValidator(&FLAGS_##name, validator)
+            JFLAGS_NAMESPACE::RegisterFlagValidator(&FLAGS_##name, validator)
 
 
 // --------------------------------------------------------------------
@@ -170,35 +170,35 @@ struct CommandLineFlagInfo {
 // TODO(user) Fix locking when validators are running, to make it safe to
 // call validators during ParseAllFlags.
 // Also make sure then to uncomment the corresponding unit test in
-// gflags_unittest.sh
-extern GFLAGS_DLL_DECL void GetAllFlags(std::vector<CommandLineFlagInfo>* OUTPUT);
-// These two are actually defined in gflags_reporting.cc.
-extern GFLAGS_DLL_DECL void ShowUsageWithFlags(const char *argv0);  // what --help does
-extern GFLAGS_DLL_DECL void ShowUsageWithFlagsRestrict(const char *argv0, const char *restrict);
+// jflags_unittest.sh
+extern JFLAGS_DLL_DECL void GetAllFlags(std::vector<CommandLineFlagInfo>* OUTPUT);
+// These two are actually defined in jflags_reporting.cc.
+extern JFLAGS_DLL_DECL void ShowUsageWithFlags(const char *argv0);  // what --help does
+extern JFLAGS_DLL_DECL void ShowUsageWithFlagsRestrict(const char *argv0, const char *restrict);
 
 // Create a descriptive string for a flag.
 // Goes to some trouble to make pretty line breaks.
-extern GFLAGS_DLL_DECL std::string DescribeOneFlag(const CommandLineFlagInfo& flag);
+extern JFLAGS_DLL_DECL std::string DescribeOneFlag(const CommandLineFlagInfo& flag);
 
 // Thread-hostile; meant to be called before any threads are spawned.
-extern GFLAGS_DLL_DECL void SetArgv(int argc, const char** argv);
+extern JFLAGS_DLL_DECL void SetArgv(int argc, const char** argv);
 
 // The following functions are thread-safe as long as SetArgv() is
 // only called before any threads start.
-extern GFLAGS_DLL_DECL const std::vector<std::string>& GetArgvs();
-extern GFLAGS_DLL_DECL const char* GetArgv();                      // all of argv as a string
-extern GFLAGS_DLL_DECL const char* GetArgv0();                     // only argv0
-extern GFLAGS_DLL_DECL uint32 GetArgvSum();                        // simple checksum of argv
-extern GFLAGS_DLL_DECL const char* ProgramInvocationName();        // argv0, or "UNKNOWN" if not set
-extern GFLAGS_DLL_DECL const char* ProgramInvocationShortName();   // basename(argv0)
+extern JFLAGS_DLL_DECL const std::vector<std::string>& GetArgvs();
+extern JFLAGS_DLL_DECL const char* GetArgv();                      // all of argv as a string
+extern JFLAGS_DLL_DECL const char* GetArgv0();                     // only argv0
+extern JFLAGS_DLL_DECL uint32 GetArgvSum();                        // simple checksum of argv
+extern JFLAGS_DLL_DECL const char* ProgramInvocationName();        // argv0, or "UNKNOWN" if not set
+extern JFLAGS_DLL_DECL const char* ProgramInvocationShortName();   // basename(argv0)
 
 // ProgramUsage() is thread-safe as long as SetUsageMessage() is only
 // called before any threads start.
-extern GFLAGS_DLL_DECL const char* ProgramUsage();                 // string set by SetUsageMessage()
+extern JFLAGS_DLL_DECL const char* ProgramUsage();                 // string set by SetUsageMessage()
 
 // VersionString() is thread-safe as long as SetVersionString() is only
 // called before any threads start.
-extern GFLAGS_DLL_DECL const char* VersionString();                // string set by SetVersionString()
+extern JFLAGS_DLL_DECL const char* VersionString();                // string set by SetVersionString()
 
 
 
@@ -212,18 +212,18 @@ extern GFLAGS_DLL_DECL const char* VersionString();                // string set
 
 // Return true iff the flagname was found.
 // OUTPUT is set to the flag's value, or unchanged if we return false.
-extern GFLAGS_DLL_DECL bool GetCommandLineOption(const char* name, std::string* OUTPUT);
+extern JFLAGS_DLL_DECL bool GetCommandLineOption(const char* name, std::string* OUTPUT);
 
 // Return true iff the flagname was found. OUTPUT is set to the flag's
 // CommandLineFlagInfo or unchanged if we return false.
-extern GFLAGS_DLL_DECL bool GetCommandLineFlagInfo(const char* name, CommandLineFlagInfo* OUTPUT);
+extern JFLAGS_DLL_DECL bool GetCommandLineFlagInfo(const char* name, CommandLineFlagInfo* OUTPUT);
 
 // Return the CommandLineFlagInfo of the flagname.  exit() if name not found.
 // Example usage, to check if a flag's value is currently the default value:
 //   if (GetCommandLineFlagInfoOrDie("foo").is_default) ...
-extern GFLAGS_DLL_DECL CommandLineFlagInfo GetCommandLineFlagInfoOrDie(const char* name);
+extern JFLAGS_DLL_DECL CommandLineFlagInfo GetCommandLineFlagInfoOrDie(const char* name);
 
-enum GFLAGS_DLL_DECL FlagSettingMode {
+enum JFLAGS_DLL_DECL FlagSettingMode {
   // update the flag's value (can call this multiple times).
   SET_FLAGS_VALUE,
   // update the flag's value, but *only if* it has not yet been updated
@@ -243,8 +243,8 @@ enum GFLAGS_DLL_DECL FlagSettingMode {
 // non-empty else.
 
 // SetCommandLineOption uses set_mode == SET_FLAGS_VALUE (the common case)
-extern GFLAGS_DLL_DECL std::string SetCommandLineOption        (const char* name, const char* value);
-extern GFLAGS_DLL_DECL std::string SetCommandLineOptionWithMode(const char* name, const char* value, FlagSettingMode set_mode);
+extern JFLAGS_DLL_DECL std::string SetCommandLineOption        (const char* name, const char* value);
+extern JFLAGS_DLL_DECL std::string SetCommandLineOptionWithMode(const char* name, const char* value, FlagSettingMode set_mode);
 
 
 // --------------------------------------------------------------------
@@ -265,7 +265,7 @@ extern GFLAGS_DLL_DECL std::string SetCommandLineOptionWithMode(const char* name
 //     // without worrying about restoring the FLAG values.
 //   }
 //
-// Note: This class is marked with GFLAGS_ATTRIBUTE_UNUSED because all
+// Note: This class is marked with JFLAGS_ATTRIBUTE_UNUSED because all
 // the work is done in the constructor and destructor, so in the standard
 // usage example above, the compiler would complain that it's an
 // unused variable.
@@ -275,7 +275,7 @@ extern GFLAGS_DLL_DECL std::string SetCommandLineOptionWithMode(const char* name
 // lifetime, so concurrent _direct_ access to those flags
 // (i.e. FLAGS_foo instead of {Get,Set}CommandLineOption()) is unsafe.
 
-class GFLAGS_DLL_DECL FlagSaver {
+class JFLAGS_DLL_DECL FlagSaver {
  public:
   FlagSaver();
   ~FlagSaver();
@@ -285,23 +285,23 @@ class GFLAGS_DLL_DECL FlagSaver {
 
   FlagSaver(const FlagSaver&);  // no copying!
   void operator=(const FlagSaver&);
-}@GFLAGS_ATTRIBUTE_UNUSED@;
+}@JFLAGS_ATTRIBUTE_UNUSED@;
 
 // --------------------------------------------------------------------
 // Some deprecated or hopefully-soon-to-be-deprecated functions.
 
 // This is often used for logging.  TODO(csilvers): figure out a better way
-extern GFLAGS_DLL_DECL std::string CommandlineFlagsIntoString();
+extern JFLAGS_DLL_DECL std::string CommandlineFlagsIntoString();
 // Usually where this is used, a FlagSaver should be used instead.
-extern GFLAGS_DLL_DECL
+extern JFLAGS_DLL_DECL
 bool ReadFlagsFromString(const std::string& flagfilecontents,
                          const char* prog_name,
                          bool errors_are_fatal);  // uses SET_FLAGS_VALUE
 
 // These let you manually implement --flagfile functionality.
 // DEPRECATED.
-extern GFLAGS_DLL_DECL bool AppendFlagsIntoFile(const std::string& filename, const char* prog_name);
-extern GFLAGS_DLL_DECL bool ReadFromFlagsFile(const std::string& filename, const char* prog_name, bool errors_are_fatal);   // uses SET_FLAGS_VALUE
+extern JFLAGS_DLL_DECL bool AppendFlagsIntoFile(const std::string& filename, const char* prog_name);
+extern JFLAGS_DLL_DECL bool ReadFromFlagsFile(const std::string& filename, const char* prog_name, bool errors_are_fatal);   // uses SET_FLAGS_VALUE
 
 
 // --------------------------------------------------------------------
@@ -312,17 +312,17 @@ extern GFLAGS_DLL_DECL bool ReadFromFlagsFile(const std::string& filename, const
 // Otherwise, return the value.  NOTE: for booleans, for true use
 // 't' or 'T' or 'true' or '1', for false 'f' or 'F' or 'false' or '0'.
 
-extern GFLAGS_DLL_DECL bool BoolFromEnv(const char *varname, bool defval);
-extern GFLAGS_DLL_DECL int32 Int32FromEnv(const char *varname, int32 defval);
-extern GFLAGS_DLL_DECL uint32 Uint32FromEnv(const char *varname, uint32 defval);
-extern GFLAGS_DLL_DECL int64 Int64FromEnv(const char *varname, int64 defval);
-extern GFLAGS_DLL_DECL uint64 Uint64FromEnv(const char *varname, uint64 defval);
-extern GFLAGS_DLL_DECL double DoubleFromEnv(const char *varname, double defval);
-extern GFLAGS_DLL_DECL const char *StringFromEnv(const char *varname, const char *defval);
+extern JFLAGS_DLL_DECL bool BoolFromEnv(const char *varname, bool defval);
+extern JFLAGS_DLL_DECL int32 Int32FromEnv(const char *varname, int32 defval);
+extern JFLAGS_DLL_DECL uint32 Uint32FromEnv(const char *varname, uint32 defval);
+extern JFLAGS_DLL_DECL int64 Int64FromEnv(const char *varname, int64 defval);
+extern JFLAGS_DLL_DECL uint64 Uint64FromEnv(const char *varname, uint64 defval);
+extern JFLAGS_DLL_DECL double DoubleFromEnv(const char *varname, double defval);
+extern JFLAGS_DLL_DECL const char *StringFromEnv(const char *varname, const char *defval);
 
 
 // --------------------------------------------------------------------
-// The next two functions parse gflags from main():
+// The next two functions parse jflags from main():
 
 // Set the "usage" message for this program.  For example:
 //   string usage("This program does nothing.  Sample usage:\n");
@@ -330,12 +330,12 @@ extern GFLAGS_DLL_DECL const char *StringFromEnv(const char *varname, const char
 //   SetUsageMessage(usage);
 // Do not include commandline flags in the usage: we do that for you!
 // Thread-hostile; meant to be called before any threads are spawned.
-extern GFLAGS_DLL_DECL void SetUsageMessage(const std::string& usage);
+extern JFLAGS_DLL_DECL void SetUsageMessage(const std::string& usage);
 
 // Sets the version string, which is emitted with --version.
 // For instance: SetVersionString("1.3");
 // Thread-hostile; meant to be called before any threads are spawned.
-extern GFLAGS_DLL_DECL void SetVersionString(const std::string& version);
+extern JFLAGS_DLL_DECL void SetVersionString(const std::string& version);
 
 
 // Looks for flags in argv and parses them.  Rearranges argv to put
@@ -345,7 +345,7 @@ extern GFLAGS_DLL_DECL void SetVersionString(const std::string& version);
 // of the first non-flag argument.
 // See top-of-file for more details on this function.
 #ifndef SWIG   // In swig, use ParseCommandLineFlagsScript() instead.
-extern GFLAGS_DLL_DECL uint32 ParseCommandLineFlags(int *argc, char*** argv, bool remove_flags);
+extern JFLAGS_DLL_DECL uint32 ParseCommandLineFlags(int *argc, char*** argv, bool remove_flags);
 #endif
 
 
@@ -359,18 +359,18 @@ extern GFLAGS_DLL_DECL uint32 ParseCommandLineFlags(int *argc, char*** argv, boo
 // defined more than once in the command line or flag file, the last
 // definition is used.  Returns the index (into argv) of the first
 // non-flag argument.  (If remove_flags is true, will always return 1.)
-extern GFLAGS_DLL_DECL uint32 ParseCommandLineNonHelpFlags(int *argc, char*** argv, bool remove_flags);
+extern JFLAGS_DLL_DECL uint32 ParseCommandLineNonHelpFlags(int *argc, char*** argv, bool remove_flags);
 
-// This is actually defined in gflags_reporting.cc.
+// This is actually defined in jflags_reporting.cc.
 // This function is misnamed (it also handles --version, etc.), but
 // it's too late to change that now. :-(
-extern GFLAGS_DLL_DECL void HandleCommandLineHelpFlags();   // in gflags_reporting.cc
+extern JFLAGS_DLL_DECL void HandleCommandLineHelpFlags();   // in jflags_reporting.cc
 
 // Allow command line reparsing.  Disables the error normally
 // generated when an unknown flag is found, since it may be found in a
 // later parse.  Thread-hostile; meant to be called before any threads
 // are spawned.
-extern GFLAGS_DLL_DECL void AllowCommandLineReparsing();
+extern JFLAGS_DLL_DECL void AllowCommandLineReparsing();
 
 // Reparse the flags that have not yet been recognized.  Only flags
 // registered since the last parse will be recognized.  Any flag value
@@ -378,7 +378,7 @@ extern GFLAGS_DLL_DECL void AllowCommandLineReparsing();
 // separate command line argument that follows the flag argument.
 // Intended for handling flags from dynamically loaded libraries,
 // since their flags are not registered until they are loaded.
-extern GFLAGS_DLL_DECL void ReparseCommandLineNonHelpFlags();
+extern JFLAGS_DLL_DECL void ReparseCommandLineNonHelpFlags();
 
 // Clean up memory allocated by flags.  This is only needed to reduce
 // the quantity of "potentially leaked" reports emitted by memory
@@ -389,7 +389,7 @@ extern GFLAGS_DLL_DECL void ReparseCommandLineNonHelpFlags();
 // called will have unexpected consequences.  This is not safe to run
 // when multiple threads might be running: the function is
 // thread-hostile.
-extern GFLAGS_DLL_DECL void ShutDownCommandLineFlags();
+extern JFLAGS_DLL_DECL void ShutDownCommandLineFlags();
 
 
 // --------------------------------------------------------------------
@@ -420,7 +420,7 @@ extern GFLAGS_DLL_DECL void ShutDownCommandLineFlags();
 // directly.  The idea is that DEFINE puts the flag in the weird
 // namespace, and DECLARE imports the flag from there into the current
 // namespace.  The net result is to force people to use DECLARE to get
-// access to a flag, rather than saying "extern GFLAGS_DLL_DECL bool FLAGS_whatever;"
+// access to a flag, rather than saying "extern JFLAGS_DLL_DECL bool FLAGS_whatever;"
 // or some such instead.  We want this so we can put extra
 // functionality (like sanity-checking) in DECLARE if we want, and
 // make sure it is picked up everywhere.
@@ -429,7 +429,7 @@ extern GFLAGS_DLL_DECL void ShutDownCommandLineFlags();
 // people can't DECLARE_int32 something that they DEFINE_bool'd
 // elsewhere.
 
-class GFLAGS_DLL_DECL FlagRegisterer {
+class JFLAGS_DLL_DECL FlagRegisterer {
  public:
   FlagRegisterer(const char* name, const char* type,
                  const char* help, const char* filename,
@@ -441,10 +441,10 @@ class GFLAGS_DLL_DECL FlagRegisterer {
 // binary file. This can reduce the size of the resulting binary
 // somewhat, and may also be useful for security reasons.
 
-extern GFLAGS_DLL_DECL const char kStrippedFlagHelp[];
+extern JFLAGS_DLL_DECL const char kStrippedFlagHelp[];
 
 
-} // namespace GFLAGS_NAMESPACE
+} // namespace JFLAGS_NAMESPACE
 
 
 #ifndef SWIG  // In swig, ignore the main flag declarations
@@ -452,7 +452,7 @@ extern GFLAGS_DLL_DECL const char kStrippedFlagHelp[];
 #if defined(STRIP_FLAG_HELP) && STRIP_FLAG_HELP > 0
 // Need this construct to avoid the 'defined but not used' warning.
 #define MAYBE_STRIPPED_HELP(txt) \
-   (false ? (txt) : GFLAGS_NAMESPACE::kStrippedFlagHelp)
+   (false ? (txt) : JFLAGS_NAMESPACE::kStrippedFlagHelp)
 #else
 #define MAYBE_STRIPPED_HELP(txt) txt
 #endif
@@ -472,9 +472,9 @@ extern GFLAGS_DLL_DECL const char kStrippedFlagHelp[];
   namespace fL##shorttype {                                             \
     static const type FLAGS_nono##name = value;                         \
     /* We always want to export defined variables, dll or no */         \
-    GFLAGS_DLL_DEFINE_FLAG type FLAGS_##name = FLAGS_nono##name;        \
+    JFLAGS_DLL_DEFINE_FLAG type FLAGS_##name = FLAGS_nono##name;        \
     type FLAGS_no##name = FLAGS_nono##name;                             \
-    static GFLAGS_NAMESPACE::FlagRegisterer o_##name(                   \
+    static JFLAGS_NAMESPACE::FlagRegisterer o_##name(                   \
       #name, #type, MAYBE_STRIPPED_HELP(help), __FILE__,                \
       &FLAGS_##name, &FLAGS_no##name);                                  \
   }                                                                     \
@@ -492,12 +492,12 @@ namespace fLB {
 struct CompileAssert {};
 typedef CompileAssert expected_sizeof_double_neq_sizeof_bool[
                       (sizeof(double) != sizeof(bool)) ? 1 : -1];
-template<typename From> double GFLAGS_DLL_DECL IsBoolFlag(const From& from);
-GFLAGS_DLL_DECL bool IsBoolFlag(bool from);
+template<typename From> double JFLAGS_DLL_DECL IsBoolFlag(const From& from);
+JFLAGS_DLL_DECL bool IsBoolFlag(bool from);
 }  // namespace fLB
 
 // Here are the actual DEFINE_*-macros. The respective DECLARE_*-macros
-// are in a separate include, gflags_declare.h, for reducing
+// are in a separate include, jflags_declare.h, for reducing
 // the physical transitive size for DECLARE use.
 #define DEFINE_bool(name, val, txt)                                     \
   namespace fLB {                                                       \
@@ -507,19 +507,19 @@ GFLAGS_DLL_DECL bool IsBoolFlag(bool from);
   DEFINE_VARIABLE(bool, B, name, val, txt)
 
 #define DEFINE_int32(name, val, txt) \
-   DEFINE_VARIABLE(GFLAGS_NAMESPACE::int32, I, \
+   DEFINE_VARIABLE(JFLAGS_NAMESPACE::int32, I, \
                    name, val, txt)
 
 #define DEFINE_uint32(name,val, txt) \
-   DEFINE_VARIABLE(GFLAGS_NAMESPACE::uint32, U, \
+   DEFINE_VARIABLE(JFLAGS_NAMESPACE::uint32, U, \
                    name, val, txt)
 
 #define DEFINE_int64(name, val, txt) \
-   DEFINE_VARIABLE(GFLAGS_NAMESPACE::int64, I64, \
+   DEFINE_VARIABLE(JFLAGS_NAMESPACE::int64, I64, \
                    name, val, txt)
 
 #define DEFINE_uint64(name,val, txt) \
-   DEFINE_VARIABLE(GFLAGS_NAMESPACE::uint64, U64, \
+   DEFINE_VARIABLE(JFLAGS_NAMESPACE::uint64, U64, \
                    name, val, txt)
 
 #define DEFINE_double(name, val, txt) \
@@ -572,7 +572,7 @@ public:
 // great together!
 // The weird 'using' + 'extern' inside the fLS namespace is to work around
 // an unknown compiler bug/issue with the gcc 4.2.1 on SUSE 10.  See
-//    http://code.google.com/p/google-gflags/issues/detail?id=20
+//    http://code.google.com/p/google-jflags/issues/detail?id=20
 #define DEFINE_string(name, val, txt)                                       \
   namespace fLS {                                                           \
     using ::fLS::clstring;                                                  \
@@ -580,11 +580,11 @@ public:
     clstring* const FLAGS_no##name = ::fLS::                                \
                                    dont_pass0toDEFINE_string(s_##name[0].s, \
                                                              val);          \
-    static GFLAGS_NAMESPACE::FlagRegisterer o_##name(                       \
+    static JFLAGS_NAMESPACE::FlagRegisterer o_##name(                       \
         #name, "string", MAYBE_STRIPPED_HELP(txt), __FILE__,                \
         s_##name[0].s, new (s_##name[1].s) clstring(*FLAGS_no##name));      \
     static StringFlagDestructor d_##name(s_##name[0].s, s_##name[1].s);     \
-    extern GFLAGS_DLL_DEFINE_FLAG clstring& FLAGS_##name;                   \
+    extern JFLAGS_DLL_DEFINE_FLAG clstring& FLAGS_##name;                   \
     using fLS::FLAGS_##name;                                                \
     clstring& FLAGS_##name = *FLAGS_no##name;                               \
   }                                                                         \
@@ -593,7 +593,7 @@ public:
 #endif  // SWIG
 
 
-@INCLUDE_GFLAGS_NS_H@
+@INCLUDE_JFLAGS_NS_H@
 
 
-#endif  // GFLAGS_GFLAGS_H_
+#endif  // JFLAGS_JFLAGS_H_

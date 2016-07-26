@@ -1,5 +1,5 @@
 #include <iostream>
-#include <gflags/gflags.h>
+#include <jflags/jflags.h>
 
 DEFINE_string(message, "Hello World!", "The message to print");
 
@@ -11,10 +11,10 @@ DEFINE_validator(message, ValidateMessage);
 
 int main(int argc, char **argv)
 {
-  gflags::SetUsageMessage("Test CMake configuration of gflags library (gflags-config.cmake)");
-  gflags::SetVersionString("0.1");
-  gflags::ParseCommandLineFlags(&argc, &argv, true);
+  jflags::SetUsageMessage("Test CMake configuration of jflags library (jflags-config.cmake)");
+  jflags::SetVersionString("0.1");
+  jflags::ParseCommandLineFlags(&argc, &argv, true);
   std::cout << FLAGS_message << std::endl;
-  gflags::ShutDownCommandLineFlags();
+  jflags::ShutDownCommandLineFlags();
   return 0;
 }

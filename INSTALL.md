@@ -1,20 +1,20 @@
 Installing a binary distribution package
 ========================================
 
-No official binary distribution packages are provided by the gflags developers.
+No official binary distribution packages are provided by the jflags developers.
 There may, however, be binary packages available for your OS. Please consult
 also the package repositories of your Linux distribution.
 
-For example on Debian/Ubuntu Linux, gflags can be installed using the
+For example on Debian/Ubuntu Linux, jflags can be installed using the
 following command:
 
-    sudo apt-get install libgflags-dev
+    sudo apt-get install libjflags-dev
 
 
 Compiling the source code with CMake
 =========================
 
-The build system of gflags is since version 2.1 based on [CMake](http://cmake.org).
+The build system of jflags is since version 2.1 based on [CMake](http://cmake.org).
 The common steps to build, test, and install software are therefore:
 
 1. Extract source files.
@@ -29,8 +29,8 @@ summarized by the following sequence of commands executed in a shell,
 where ```$package``` and ```$version``` are shell variables which represent
 the name of this package and the obtained version of the software.
 
-    $ tar xzf gflags-$version-source.tar.gz
-    $ cd gflags-$version
+    $ tar xzf jflags-$version-source.tar.gz
+    $ cd jflags-$version
     $ mkdir build && cd build
     $ ccmake ..
     
@@ -43,7 +43,7 @@ the name of this package and the obtained version of the software.
     $ make test    (optional)
     $ make install (optional)
 
-In the following, only gflags-specific CMake settings available to
+In the following, only jflags-specific CMake settings available to
 configure the build and installation are documented. Note that most of these
 variables are for advanced users and binary package maintainers only.
 They usually do not have to be modified.
@@ -51,38 +51,38 @@ They usually do not have to be modified.
 
 CMake Option                | Description
 --------------------------- | -------------------------------------------------------
-CMAKE_INSTALL_PREFIX        | Installation directory, e.g., "/usr/local" on Unix and "C:\Program Files\gflags" on Windows.
+CMAKE_INSTALL_PREFIX        | Installation directory, e.g., "/usr/local" on Unix and "C:\Program Files\jflags" on Windows.
 BUILD_SHARED_LIBS           | Request build of dynamic link libraries.
 BUILD_STATIC_LIBS           | Request build of static link libraries. Implied if BUILD_SHARED_LIBS is OFF.
 BUILD_PACKAGING             | Enable binary package generation using CPack.
 BUILD_TESTING               | Build tests for execution by CTest.
 BUILD_NC_TESTS              | Request inclusion of negative compilation tests (requires Python).
 BUILD_CONFIG_TESTS          | Request inclusion of package configuration tests (requires Python).
-BUILD_gflags_LIBS           | Request build of multi-threaded gflags libraries (if threading library found).
-BUILD_gflags_nothreads_LIBS | Request build of single-threaded gflags libraries.
-GFLAGS_NAMESPACE            | Name of the C++ namespace to be used by the gflags library. Note that the public source header files are installed in a subdirectory named after this namespace. To maintain backwards compatibility with the Google Commandline Flags, set this variable to "google". The default is "gflags".
-GFLAGS_INTTYPES_FORMAT      | String identifying format of built-in integer types.
-GFLAGS_INCLUDE_DIR          | Name of headers installation directory relative to CMAKE_INSTALL_PREFIX.
+BUILD_jflags_LIBS           | Request build of multi-threaded jflags libraries (if threading library found).
+BUILD_jflags_nothreads_LIBS | Request build of single-threaded jflags libraries.
+JFLAGS_NAMESPACE            | Name of the C++ namespace to be used by the jflags library. Note that the public source header files are installed in a subdirectory named after this namespace. To maintain backwards compatibility with the Google Commandline Flags, set this variable to "google". The default is "jflags".
+JFLAGS_INTTYPES_FORMAT      | String identifying format of built-in integer types.
+JFLAGS_INCLUDE_DIR          | Name of headers installation directory relative to CMAKE_INSTALL_PREFIX.
 LIBRARY_INSTALL_DIR         | Name of library installation directory relative to CMAKE_INSTALL_PREFIX.
 INSTALL_HEADERS             | Request installation of public header files.
 
-Using gflags with [Bazel](http://bazel.io)
+Using jflags with [Bazel](http://bazel.io)
 =========================
 
-To use gflags in a Bazel project, map it in as an external dependency by editing
+To use jflags in a Bazel project, map it in as an external dependency by editing
 your WORKSPACE file:
 
     git_repository(
-        name = "gflags_git",
+        name = "jflags_git",
         commit = "",  # Use the current HEAD commit
-        remote = "https://github.com/gflags/gflags.git",
+        remote = "https://github.com/jflags/jflags.git",
     )
 
     bind(
-        name = "gflags",
-        actual = "@gflags_git//:gflags",
+        name = "jflags",
+        actual = "@jflags_git//:jflags",
     )
 
-You can then add `//external:gflags` to the `deps` section of a `cc_binary` or
-`cc_library` rule, and `#include <gflags/gflags.h>` to include it in your source
+You can then add `//external:jflags` to the `deps` section of a `cc_binary` or
+`cc_library` rule, and `#include <jflags/jflags.h>` to include it in your source
 code.

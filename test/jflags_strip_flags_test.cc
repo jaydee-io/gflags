@@ -35,12 +35,12 @@
 // that the help string is not in there.
 
 #define STRIP_FLAG_HELP 1
-#include <gflags/gflags.h>
+#include <jflags/jflags.h>
 
 #include <stdio.h>
 
-using GFLAGS_NAMESPACE::SetUsageMessage;
-using GFLAGS_NAMESPACE::ParseCommandLineFlags;
+using JFLAGS_NAMESPACE::SetUsageMessage;
+using JFLAGS_NAMESPACE::ParseCommandLineFlags;
 
 
 DEFINE_bool(test, true, "This text should be stripped out");

@@ -37,8 +37,8 @@
  *    http://developer.gnome.org/doc/API/glib/glib-windows-compatability-functions.html
  */
 
-#ifndef GFLAGS_WINDOWS_PORT_H_
-#define GFLAGS_WINDOWS_PORT_H_
+#ifndef JFLAGS_WINDOWS_PORT_H_
+#define JFLAGS_WINDOWS_PORT_H_
 
 #include "config.h"
 
@@ -64,9 +64,9 @@
  */
 #if !defined(__MINGW32__) && !defined(__MINGW64__)  /* mingw already defines */
 #if !(defined(_MSC_VER) && _MSC_VER >= 1900)  /* msvc 2015 already defines */
-extern GFLAGS_DLL_DECL int snprintf(char *str, size_t size,
+extern JFLAGS_DLL_DECL int snprintf(char *str, size_t size,
                                        const char *format, ...);
-extern int GFLAGS_DLL_DECL safe_vsnprintf(char *str, size_t size,
+extern int JFLAGS_DLL_DECL safe_vsnprintf(char *str, size_t size,
                                              const char *format, va_list ap);
 #define vsnprintf(str, size, format, ap)  safe_vsnprintf(str, size, format, ap)
 #define va_copy(dst, src)  (dst) = (src)
@@ -126,4 +126,4 @@ inline void setenv(const char* name, const char* value, int) {
 #define PATH_MAX 1024
 #endif
 
-#endif  /* GFLAGS_WINDOWS_PORT_H_ */
+#endif  /* JFLAGS_WINDOWS_PORT_H_ */

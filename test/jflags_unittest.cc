@@ -30,9 +30,9 @@
 // ---
 //
 // For now, this unit test does not cover all features of
-// gflags.cc
+// jflags.cc
 
-#include <gflags/gflags.h>
+#include <jflags/jflags.h>
 
 #include "config.h"
 #include "util.h"
@@ -54,23 +54,23 @@ EXPECT_DEATH_INIT
 // works.  But don't bother on windows; the windows port is so new
 // it never had the old location-names.
 #ifndef _MSC_VER
-#include <gflags/gflags_completions.h>
-void (*unused_fn)() = &GFLAGS_NAMESPACE::HandleCommandLineCompletions;
+#include <jflags/jflags_completions.h>
+void (*unused_fn)() = &JFLAGS_NAMESPACE::HandleCommandLineCompletions;
 #endif
 
 using std::string;
 using std::vector;
-using GFLAGS_NAMESPACE::int32;
-using GFLAGS_NAMESPACE::FlagRegisterer;
-using GFLAGS_NAMESPACE::StringFromEnv;
-using GFLAGS_NAMESPACE::RegisterFlagValidator;
-using GFLAGS_NAMESPACE::CommandLineFlagInfo;
-using GFLAGS_NAMESPACE::GetAllFlags;
+using JFLAGS_NAMESPACE::int32;
+using JFLAGS_NAMESPACE::FlagRegisterer;
+using JFLAGS_NAMESPACE::StringFromEnv;
+using JFLAGS_NAMESPACE::RegisterFlagValidator;
+using JFLAGS_NAMESPACE::CommandLineFlagInfo;
+using JFLAGS_NAMESPACE::GetAllFlags;
 
 DEFINE_string(test_tmpdir, "", "Dir we use for temp files");
-DEFINE_string(srcdir, StringFromEnv("SRCDIR", "."), "Source-dir root, needed to find gflags_unittest_flagfile");
+DEFINE_string(srcdir, StringFromEnv("SRCDIR", "."), "Source-dir root, needed to find jflags_unittest_flagfile");
 
-DECLARE_string(tryfromenv);   // in gflags.cc
+DECLARE_string(tryfromenv);   // in jflags.cc
 
 DEFINE_bool(test_bool, false, "tests bool-ness");
 DEFINE_int32(test_int32, -1, "");
@@ -110,8 +110,8 @@ static string ChangeableString() {
 DEFINE_string(changeable_string_var, ChangeableString(), "");
 
 // These are never used in this unittest, but can be used by
-// gflags_unittest.sh when it needs to specify flags
-// that are legal for gflags_unittest but don't need to
+// jflags_unittest.sh when it needs to specify flags
+// that are legal for jflags_unittest but don't need to
 // be a particular value.
 DEFINE_bool(unused_bool, true, "unused bool-ness");
 DEFINE_int32(unused_int32, -1001, "");
@@ -121,7 +121,7 @@ DEFINE_uint64(unused_uint64, 2000, "");
 DEFINE_double(unused_double, -1000.0, "");
 DEFINE_string(unused_string, "unused", "");
 
-// These flags are used by gflags_unittest.sh
+// These flags are used by jflags_unittest.sh
 DEFINE_bool(changed_bool1, false, "changed");
 DEFINE_bool(changed_bool2, false, "changed");
 DEFINE_bool(long_helpstring, false,
@@ -142,7 +142,7 @@ static bool AlwaysFail(const char* flag, bool value) { return value == false; }
 DEFINE_bool(always_fail, false, "will fail to validate when you set it");
 DEFINE_validator(always_fail, AlwaysFail);
 
-// See the comment by GetAllFlags in gflags.h
+// See the comment by GetAllFlags in jflags.h
 static bool DeadlockIfCantLockInValidators(const char* flag, bool value) {
   if (!value) {
     return true;
@@ -217,7 +217,7 @@ namespace fLI {
   int32 FLAGS_notldflag1 = FLAGS_nonotldflag1;
   static FlagRegisterer o_tldflag1(
     "tldflag1", "int32",
-    "should show up in --helpshort", "gflags_unittest.cc",
+    "should show up in --helpshort", "jflags_unittest.cc",
     &FLAGS_tldflag1, &FLAGS_notldflag1);
 }
 using fLI::FLAGS_tldflag1;
@@ -228,12 +228,12 @@ namespace fLI {
   int32 FLAGS_notldflag2 = FLAGS_nonotldflag2;
   static FlagRegisterer o_tldflag2(
     "tldflag2", "int32",
-    "should show up in --helpshort", "gflags_unittest.",
+    "should show up in --helpshort", "jflags_unittest.",
     &FLAGS_tldflag2, &FLAGS_notldflag2);
 }
 using fLI::FLAGS_tldflag2;
 
-namespace GFLAGS_NAMESPACE {
+namespace JFLAGS_NAMESPACE {
 
 namespace {
 
@@ -250,9 +250,9 @@ static string TmpFile(const string& basename) {
 // Must be called after ParseCommandLineFlags().
 static const char* GetFlagFileFlag() {
 #ifdef _MSC_VER
-  static const string flagfile = FLAGS_srcdir + "\\gflags_unittest_flagfile";
+  static const string flagfile = FLAGS_srcdir + "\\jflags_unittest_flagfile";
 #else
-  static const string flagfile = FLAGS_srcdir + "/gflags_unittest_flagfile";
+  static const string flagfile = FLAGS_srcdir + "/jflags_unittest_flagfile";
 #endif
   static const string flagfile_flag = string("--flagfile=") + flagfile;
   return flagfile_flag.c_str();
@@ -288,7 +288,7 @@ TEST(FlagTypes, FlagTypes) {
 #ifdef GTEST_HAS_DEATH_TEST
 // Death tests for "help" options.
 //
-// The help system automatically calls gflags_exitfunc(1) when you specify any of
+// The help system automatically calls jflags_exitfunc(1) when you specify any of
 // the help-related flags ("-helpmatch", "-helpxml") so we can't test
 // those mainline.
 
@@ -377,7 +377,7 @@ TEST(FlagFileTest, FilenamesOurfileLast) {
       "not_our_filename\n"
       "-test_bool=true\n"
       "     -test_int32=1\n"
-      "gflags_unittest\n"
+      "jflags_unittest\n"
       "-test_double=1000.0\n",
       // Expected values
       "continued",
@@ -400,7 +400,7 @@ TEST(FlagFileTest, FilenamesOurfileFirst) {
       "#are\n"
       "                  #trickier\n"
       "# than others\n"
-      "gflags_unittest\n"
+      "jflags_unittest\n"
       "-test_bool=true\n"
       "     -test_int32=1\n"
       "not_our_filename\n"
@@ -886,13 +886,13 @@ TEST(GetAllFlagsTest, BaseTest) {
 TEST(ShowUsageWithFlagsTest, BaseTest) {
   // TODO(csilvers): test this by allowing output other than to stdout.
   // Not urgent since this functionality is tested via
-  // gflags_unittest.sh, though only through use of --help.
+  // jflags_unittest.sh, though only through use of --help.
 }
 
 TEST(ShowUsageWithFlagsRestrictTest, BaseTest) {
   // TODO(csilvers): test this by allowing output other than to stdout.
   // Not urgent since this functionality is tested via
-  // gflags_unittest.sh, though only through use of --helpmatch.
+  // jflags_unittest.sh, though only through use of --helpmatch.
 }
 
 // Note: all these argv-based tests depend on SetArgv being called
@@ -900,19 +900,19 @@ TEST(ShowUsageWithFlagsRestrictTest, BaseTest) {
 TEST(GetArgvsTest, BaseTest) {
   vector<string> argvs = GetArgvs();
   EXPECT_EQ(4, argvs.size());
-  EXPECT_EQ("/test/argv/for/gflags_unittest", argvs[0]);
+  EXPECT_EQ("/test/argv/for/jflags_unittest", argvs[0]);
   EXPECT_EQ("argv 2", argvs[1]);
   EXPECT_EQ("3rd argv", argvs[2]);
   EXPECT_EQ("argv #4", argvs[3]);
 }
 
 TEST(GetArgvTest, BaseTest) {
-  EXPECT_STREQ("/test/argv/for/gflags_unittest "
+  EXPECT_STREQ("/test/argv/for/jflags_unittest "
                "argv 2 3rd argv argv #4", GetArgv());
 }
 
 TEST(GetArgv0Test, BaseTest) {
-  EXPECT_STREQ("/test/argv/for/gflags_unittest", GetArgv0());
+  EXPECT_STREQ("/test/argv/for/jflags_unittest", GetArgv0());
 }
 
 TEST(GetArgvSumTest, BaseTest) {
@@ -922,16 +922,16 @@ TEST(GetArgvSumTest, BaseTest) {
 }
 
 TEST(ProgramInvocationNameTest, BaseTest) {
-  EXPECT_STREQ("/test/argv/for/gflags_unittest",
+  EXPECT_STREQ("/test/argv/for/jflags_unittest",
                ProgramInvocationName());
 }
 
 TEST(ProgramInvocationShortNameTest, BaseTest) {
-  EXPECT_STREQ("gflags_unittest", ProgramInvocationShortName());
+  EXPECT_STREQ("jflags_unittest", ProgramInvocationShortName());
 }
 
 TEST(ProgramUsageTest, BaseTest) {  // Depends on 1st arg to ParseCommandLineFlags()
-  EXPECT_STREQ("/test/argv/for/gflags_unittest: "
+  EXPECT_STREQ("/test/argv/for/jflags_unittest: "
                "<useless flag> [...]\nDoes something useless.\n",
                ProgramUsage());
 }
@@ -1176,7 +1176,7 @@ TEST(FlagsSetBeforeInitTest, TryFromEnv) {
 // ParseCommandLineNonHelpFlags() uses the last definition of a flag
 // in case it's defined more than once.
 
-DEFINE_int32(test_flag, -1, "used for testing gflags.cc");
+DEFINE_int32(test_flag, -1, "used for testing jflags.cc");
 
 // Parses and returns the --test_flag flag.
 // If with_help is true, calls ParseCommandLineFlags; otherwise calls
@@ -1517,7 +1517,7 @@ static int main(int argc, char **argv) {
   // We need to call SetArgv before parsing flags, so our "test" argv will
   // win out over this executable's real argv.  That makes running this
   // test with a real --help flag kinda annoying, unfortunately.
-  const char* test_argv[] = { "/test/argv/for/gflags_unittest",
+  const char* test_argv[] = { "/test/argv/for/jflags_unittest",
                               "argv 2", "3rd argv", "argv #4" };
   SetArgv(arraysize(test_argv), test_argv);
 
@@ -1551,9 +1551,9 @@ static int main(int argc, char **argv) {
   return exit_status;
 }
 
-} // GFLAGS_NAMESPACE
+} // JFLAGS_NAMESPACE
 
 int main(int argc, char** argv) {
-  return GFLAGS_NAMESPACE::main(argc, argv);
+  return JFLAGS_NAMESPACE::main(argc, argv);
 }
 

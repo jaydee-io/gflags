@@ -41,7 +41,7 @@
 #
 # Here's an example of how you might use this script:
 # $ complete -o bashdefault -o default -o nospace -C                         \
-#   '/usr/local/bin/gflags_completions.sh --tab_completion_columns $COLUMNS' \
+#   '/usr/local/bin/jflags_completions.sh --tab_completion_columns $COLUMNS' \
 #   time  env  binary_name  another_binary  [...]
 
 # completion_word_index gets the index of the (N-1)th argument for
@@ -50,7 +50,7 @@
 completion_word_index="$(($# - 1))"
 completion_word="${!completion_word_index}"
 
-# TODO(user): Replace this once gflags_completions.cc has
+# TODO(user): Replace this once jflags_completions.cc has
 # a bool parameter indicating unambiguously to hijack the process for
 # completion purposes.
 if [ -z "$completion_word" ]; then

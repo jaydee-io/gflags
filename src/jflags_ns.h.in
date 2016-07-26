@@ -1,0 +1,102 @@
+// Copyright (c) 2014, Andreas Schuh
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are
+// met:
+//
+//     * Redistributions of source code must retain the above copyright
+// notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above
+// copyright notice, this list of conditions and the following disclaimer
+// in the documentation and/or other materials provided with the
+// distribution.
+//     * Neither the name of Google Inc. nor the names of its
+// contributors may be used to endorse or promote products derived from
+// this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+// -----------------------------------------------------------------------------
+// Imports the jflags library symbols into an alternative/deprecated namespace.
+
+#ifndef JFLAGS_JFLAGS_H_
+#  error The internal header jflags_@ns@.h may only be included by jflags.h
+#endif
+
+#ifndef JFLAGS_NS_@NS@_H_
+#define JFLAGS_NS_@NS@_H_
+
+
+namespace @ns@ {
+
+
+using JFLAGS_NAMESPACE::int32;
+using JFLAGS_NAMESPACE::uint32;
+using JFLAGS_NAMESPACE::int64;
+using JFLAGS_NAMESPACE::uint64;
+
+using JFLAGS_NAMESPACE::RegisterFlagValidator;
+using JFLAGS_NAMESPACE::CommandLineFlagInfo;
+using JFLAGS_NAMESPACE::GetAllFlags;
+using JFLAGS_NAMESPACE::ShowUsageWithFlags;
+using JFLAGS_NAMESPACE::ShowUsageWithFlagsRestrict;
+using JFLAGS_NAMESPACE::DescribeOneFlag;
+using JFLAGS_NAMESPACE::SetArgv;
+using JFLAGS_NAMESPACE::GetArgvs;
+using JFLAGS_NAMESPACE::GetArgv;
+using JFLAGS_NAMESPACE::GetArgv0;
+using JFLAGS_NAMESPACE::GetArgvSum;
+using JFLAGS_NAMESPACE::ProgramInvocationName;
+using JFLAGS_NAMESPACE::ProgramInvocationShortName;
+using JFLAGS_NAMESPACE::ProgramUsage;
+using JFLAGS_NAMESPACE::VersionString;
+using JFLAGS_NAMESPACE::GetCommandLineOption;
+using JFLAGS_NAMESPACE::GetCommandLineFlagInfo;
+using JFLAGS_NAMESPACE::GetCommandLineFlagInfoOrDie;
+using JFLAGS_NAMESPACE::FlagSettingMode;
+using JFLAGS_NAMESPACE::SET_FLAGS_VALUE;
+using JFLAGS_NAMESPACE::SET_FLAG_IF_DEFAULT;
+using JFLAGS_NAMESPACE::SET_FLAGS_DEFAULT;
+using JFLAGS_NAMESPACE::SetCommandLineOption;
+using JFLAGS_NAMESPACE::SetCommandLineOptionWithMode;
+using JFLAGS_NAMESPACE::FlagSaver;
+using JFLAGS_NAMESPACE::CommandlineFlagsIntoString;
+using JFLAGS_NAMESPACE::ReadFlagsFromString;
+using JFLAGS_NAMESPACE::AppendFlagsIntoFile;
+using JFLAGS_NAMESPACE::ReadFromFlagsFile;
+using JFLAGS_NAMESPACE::BoolFromEnv;
+using JFLAGS_NAMESPACE::Int32FromEnv;
+using JFLAGS_NAMESPACE::Uint32FromEnv;
+using JFLAGS_NAMESPACE::Int64FromEnv;
+using JFLAGS_NAMESPACE::Uint64FromEnv;
+using JFLAGS_NAMESPACE::DoubleFromEnv;
+using JFLAGS_NAMESPACE::StringFromEnv;
+using JFLAGS_NAMESPACE::SetUsageMessage;
+using JFLAGS_NAMESPACE::SetVersionString;
+using JFLAGS_NAMESPACE::ParseCommandLineNonHelpFlags;
+using JFLAGS_NAMESPACE::HandleCommandLineHelpFlags;
+using JFLAGS_NAMESPACE::AllowCommandLineReparsing;
+using JFLAGS_NAMESPACE::ReparseCommandLineNonHelpFlags;
+using JFLAGS_NAMESPACE::ShutDownCommandLineFlags;
+using JFLAGS_NAMESPACE::FlagRegisterer;
+
+#ifndef SWIG
+using JFLAGS_NAMESPACE::ParseCommandLineFlags;
+#endif
+
+
+} // namespace @ns@
+
+
+#endif  // JFLAGS_NS_@NS@_H_

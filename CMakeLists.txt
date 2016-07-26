@@ -1,74 +1,74 @@
-## CMake configuration file of gflags project
+## CMake configuration file of jflags project
 ##
-## This CMakeLists.txt defines some gflags specific configuration variables
-## using the "gflags_define" utility macro. The default values of these variables
+## This CMakeLists.txt defines some jflags specific configuration variables
+## using the "jflags_define" utility macro. The default values of these variables
 ## can be overridden either on the CMake command-line using the -D option of
-## the cmake command or in a super-project which includes the gflags source
-## tree by setting the GFLAGS_<varname> CMake variables before adding the
-## gflags source directory via CMake's "add_subdirectory" command. Only when
-## the non-cached variable GFLAGS_IS_SUBPROJECT has a value equivalent to FALSE,
+## the cmake command or in a super-project which includes the jflags source
+## tree by setting the JFLAGS_<varname> CMake variables before adding the
+## jflags source directory via CMake's "add_subdirectory" command. Only when
+## the non-cached variable JFLAGS_IS_SUBPROJECT has a value equivalent to FALSE,
 ## these configuration variables are added to the CMake cache so they can be
-## edited in the CMake GUI. By default, GFLAGS_IS_SUBPROJECT is set to TRUE when
+## edited in the CMake GUI. By default, JFLAGS_IS_SUBPROJECT is set to TRUE when
 ## the CMAKE_SOURCE_DIR is not identical to the directory of this CMakeLists.txt
-## file, i.e., the top-level directory of the gflags project source tree.
+## file, i.e., the top-level directory of the jflags project source tree.
 ##
-## When this project is a subproject (GFLAGS_IS_SUBPROJECT is TRUE), the default
+## When this project is a subproject (JFLAGS_IS_SUBPROJECT is TRUE), the default
 ## settings are such that only the static single-threaded library is built without
-## installation of the gflags files. The "gflags" target is in this case an ALIAS
-## library target for the "gflags_nothreads_static" library target. Targets which
-## depend on the gflags library should link to the "gflags" library target.
+## installation of the jflags files. The "jflags" target is in this case an ALIAS
+## library target for the "jflags_nothreads_static" library target. Targets which
+## depend on the jflags library should link to the "jflags" library target.
 ##
-## Example CMakeLists.txt of user project which requires separate gflags installation:
+## Example CMakeLists.txt of user project which requires separate jflags installation:
 ##   cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 ##
 ##   project(Foo)
 ##
-##   find_package(gflags REQUIRED)
+##   find_package(jflags REQUIRED)
 ##
 ##   add_executable(foo src/foo.cc)
-##   target_link_libraries(foo gflags)
+##   target_link_libraries(foo jflags)
 ##
-## Example CMakeLists.txt of user project which requires separate single-threaded static gflags installation:
+## Example CMakeLists.txt of user project which requires separate single-threaded static jflags installation:
 ##   cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 ##
 ##   project(Foo)
 ##
-##   find_package(gflags COMPONENTS nothreads_static)
+##   find_package(jflags COMPONENTS nothreads_static)
 ##
 ##   add_executable(foo src/foo.cc)
-##   target_link_libraries(foo gflags)
+##   target_link_libraries(foo jflags)
 ##
-## Example CMakeLists.txt of super-project which contains gflags source tree:
+## Example CMakeLists.txt of super-project which contains jflags source tree:
 ##   cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 ##
 ##   project(Foo)
 ##
-##   add_subdirectory(gflags)
+##   add_subdirectory(jflags)
 ##
 ##   add_executable(foo src/foo.cc)
-##   target_link_libraries(foo gflags)
+##   target_link_libraries(foo jflags)
 ##
 ## Variables to configure the source files:
-## - GFLAGS_IS_A_DLL
-## - GFLAGS_NAMESPACE
-## - GFLAGS_ATTRIBUTE_UNUSED
-## - GFLAGS_INTTYPES_FORMAT
+## - JFLAGS_IS_A_DLL
+## - JFLAGS_NAMESPACE
+## - JFLAGS_ATTRIBUTE_UNUSED
+## - JFLAGS_INTTYPES_FORMAT
 ##
 ## Variables to configure the build:
-## - GFLAGS_SOVERSION
-## - GFLAGS_BUILD_SHARED_LIBS
-## - GFLAGS_BUILD_STATIC_LIBS
-## - GFLAGS_BUILD_gflags_LIB
-## - GFLAGS_BUILD_gflags_nothreads_LIB
-## - GFLAGS_BUILD_TESTING
-## - GFLAGS_BUILD_PACKAGING
+## - JFLAGS_SOVERSION
+## - JFLAGS_BUILD_SHARED_LIBS
+## - JFLAGS_BUILD_STATIC_LIBS
+## - JFLAGS_BUILD_jflags_LIB
+## - JFLAGS_BUILD_jflags_nothreads_LIB
+## - JFLAGS_BUILD_TESTING
+## - JFLAGS_BUILD_PACKAGING
 ##
 ## Variables to configure the installation:
-## - GFLAGS_INCLUDE_DIR
-## - GFLAGS_LIBRARY_INSTALL_DIR or LIB_INSTALL_DIR or LIB_SUFFIX
-## - GFLAGS_INSTALL_HEADERS
-## - GFLAGS_INSTALL_SHARED_LIBS
-## - GFLAGS_INSTALL_STATIC_LIBS
+## - JFLAGS_INCLUDE_DIR
+## - JFLAGS_LIBRARY_INSTALL_DIR or LIB_INSTALL_DIR or LIB_SUFFIX
+## - JFLAGS_INSTALL_HEADERS
+## - JFLAGS_INSTALL_SHARED_LIBS
+## - JFLAGS_INSTALL_STATIC_LIBS
 
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 
@@ -83,11 +83,11 @@ include (utils)
 
 # ----------------------------------------------------------------------------
 # package information
-set (PACKAGE_NAME      "gflags")
+set (PACKAGE_NAME      "jflags")
 set (PACKAGE_VERSION   "2.2.0")
 set (PACKAGE_STRING    "${PACKAGE_NAME} ${PACKAGE_VERSION}")
 set (PACKAGE_TARNAME   "${PACKAGE_NAME}-${PACKAGE_VERSION}")
-set (PACKAGE_BUGREPORT "https://github.com/gflags/gflags/issues")
+set (PACKAGE_BUGREPORT "https://github.com/jflags/jflags/issues")
 
 project (${PACKAGE_NAME} CXX)
 if (CMAKE_VERSION VERSION_LESS 100)
@@ -107,26 +107,26 @@ version_numbers (
 )
 
 # shared library ABI version number, can be overridden by package maintainers
-# using -DGFLAGS_SOVERSION=XXX on the command-line
-if (GFLAGS_SOVERSION)
-  set (PACKAGE_SOVERSION "${GFLAGS_SOVERSION}")
+# using -DJFLAGS_SOVERSION=XXX on the command-line
+if (JFLAGS_SOVERSION)
+  set (PACKAGE_SOVERSION "${JFLAGS_SOVERSION}")
 else ()
   # TODO: Change default SOVERSION back to PACKAGE_VERSION_MAJOR with the
   #       next increase of major version number (i.e., 3.0.0 -> SOVERSION 3)
   #       The <major>.<minor> SOVERSION should be used for the 2.x releases
   #       versions only which temporarily broke the API by changing the default
-  #       namespace from "google" to "gflags".
+  #       namespace from "google" to "jflags".
   set (PACKAGE_SOVERSION "${PACKAGE_VERSION_MAJOR}.${PACKAGE_VERSION_MINOR}")
 endif ()
 
-# when gflags is included as subproject (e.g., as Git submodule/subtree) in the source
+# when jflags is included as subproject (e.g., as Git submodule/subtree) in the source
 # tree of a project that uses it, no variables should be added to the CMake cache;
-# users may set the non-cached variable GFLAGS_IS_SUBPROJECT before add_subdirectory(gflags)
-if (NOT DEFINED GFLAGS_IS_SUBPROJECT)
+# users may set the non-cached variable JFLAGS_IS_SUBPROJECT before add_subdirectory(jflags)
+if (NOT DEFINED JFLAGS_IS_SUBPROJECT)
   if ("^${CMAKE_SOURCE_DIR}$" STREQUAL "^${PROJECT_SOURCE_DIR}$")
-    set (GFLAGS_IS_SUBPROJECT FALSE)
+    set (JFLAGS_IS_SUBPROJECT FALSE)
   else ()
-    set (GFLAGS_IS_SUBPROJECT TRUE)
+    set (JFLAGS_IS_SUBPROJECT TRUE)
   endif ()
 endif ()
 
@@ -136,71 +136,71 @@ string (TOUPPER "${PACKAGE_NAME}" PACKAGE_PREFIX)
 # ----------------------------------------------------------------------------
 # options
 
-# maintain binary backwards compatibility with gflags library version <= 2.0,
-# but at the same time enable the use of the preferred new "gflags" namespace
-gflags_define (STRING NAMESPACE "Name(s) of library namespace (separate multiple options by semicolon)" "google;${PACKAGE_NAME}" "${PACKAGE_NAME}")
-gflags_property (NAMESPACE ADVANCED TRUE)
-set (GFLAGS_NAMESPACE_SECONDARY "${NAMESPACE}")
-list (REMOVE_DUPLICATES GFLAGS_NAMESPACE_SECONDARY)
-if (NOT GFLAGS_NAMESPACE_SECONDARY)
-  message (FATAL_ERROR "GFLAGS_NAMESPACE must be set to one (or more) valid C++ namespace identifier(s separated by semicolon \";\").")
+# maintain binary backwards compatibility with jflags library version <= 2.0,
+# but at the same time enable the use of the preferred new "jflags" namespace
+jflags_define (STRING NAMESPACE "Name(s) of library namespace (separate multiple options by semicolon)" "google;${PACKAGE_NAME}" "${PACKAGE_NAME}")
+jflags_property (NAMESPACE ADVANCED TRUE)
+set (JFLAGS_NAMESPACE_SECONDARY "${NAMESPACE}")
+list (REMOVE_DUPLICATES JFLAGS_NAMESPACE_SECONDARY)
+if (NOT JFLAGS_NAMESPACE_SECONDARY)
+  message (FATAL_ERROR "JFLAGS_NAMESPACE must be set to one (or more) valid C++ namespace identifier(s separated by semicolon \";\").")
 endif ()
-foreach (ns IN LISTS GFLAGS_NAMESPACE_SECONDARY)
+foreach (ns IN LISTS JFLAGS_NAMESPACE_SECONDARY)
   if (NOT ns MATCHES "^[a-zA-Z][a-zA-Z0-9_]*$")
-    message (FATAL_ERROR "GFLAGS_NAMESPACE contains invalid namespace identifier: ${ns}")
+    message (FATAL_ERROR "JFLAGS_NAMESPACE contains invalid namespace identifier: ${ns}")
   endif ()
 endforeach ()
-list (GET       GFLAGS_NAMESPACE_SECONDARY 0 GFLAGS_NAMESPACE)
-list (REMOVE_AT GFLAGS_NAMESPACE_SECONDARY 0)
+list (GET       JFLAGS_NAMESPACE_SECONDARY 0 JFLAGS_NAMESPACE)
+list (REMOVE_AT JFLAGS_NAMESPACE_SECONDARY 0)
 
-# cached build options when gflags is not a subproject, otherwise non-cached CMake variables
-# usage: gflags_define(BOOL <name> <doc> <default> [<subproject default>])
-gflags_define (BOOL BUILD_SHARED_LIBS          "Request build of shared libraries."                                       OFF OFF)
-gflags_define (BOOL BUILD_STATIC_LIBS          "Request build of static libraries (default if BUILD_SHARED_LIBS is OFF)." OFF ON)
-gflags_define (BOOL BUILD_gflags_LIB           "Request build of the multi-threaded gflags library."                      ON  OFF)
-gflags_define (BOOL BUILD_gflags_nothreads_LIB "Request build of the single-threaded gflags library."                     ON  ON)
-gflags_define (BOOL BUILD_PACKAGING            "Enable build of distribution packages using CPack."                       OFF OFF)
-gflags_define (BOOL BUILD_TESTING              "Enable build of the unit tests and their execution using CTest."          OFF OFF)
-gflags_define (BOOL INSTALL_HEADERS            "Request installation of headers and other development files."             ON  OFF)
-gflags_define (BOOL INSTALL_SHARED_LIBS        "Request installation of shared libraries."                                ON  ON)
-gflags_define (BOOL INSTALL_STATIC_LIBS        "Request installation of static libraries."                                ON  OFF)
+# cached build options when jflags is not a subproject, otherwise non-cached CMake variables
+# usage: jflags_define(BOOL <name> <doc> <default> [<subproject default>])
+jflags_define (BOOL BUILD_SHARED_LIBS          "Request build of shared libraries."                                       OFF OFF)
+jflags_define (BOOL BUILD_STATIC_LIBS          "Request build of static libraries (default if BUILD_SHARED_LIBS is OFF)." OFF ON)
+jflags_define (BOOL BUILD_jflags_LIB           "Request build of the multi-threaded jflags library."                      ON  OFF)
+jflags_define (BOOL BUILD_jflags_nothreads_LIB "Request build of the single-threaded jflags library."                     ON  ON)
+jflags_define (BOOL BUILD_PACKAGING            "Enable build of distribution packages using CPack."                       OFF OFF)
+jflags_define (BOOL BUILD_TESTING              "Enable build of the unit tests and their execution using CTest."          OFF OFF)
+jflags_define (BOOL INSTALL_HEADERS            "Request installation of headers and other development files."             ON  OFF)
+jflags_define (BOOL INSTALL_SHARED_LIBS        "Request installation of shared libraries."                                ON  ON)
+jflags_define (BOOL INSTALL_STATIC_LIBS        "Request installation of static libraries."                                ON  OFF)
 
-gflags_property (BUILD_STATIC_LIBS   ADVANCED TRUE)
-gflags_property (INSTALL_HEADERS     ADVANCED TRUE)
-gflags_property (INSTALL_SHARED_LIBS ADVANCED TRUE)
-gflags_property (INSTALL_STATIC_LIBS ADVANCED TRUE)
+jflags_property (BUILD_STATIC_LIBS   ADVANCED TRUE)
+jflags_property (INSTALL_HEADERS     ADVANCED TRUE)
+jflags_property (INSTALL_SHARED_LIBS ADVANCED TRUE)
+jflags_property (INSTALL_STATIC_LIBS ADVANCED TRUE)
 
-if (NOT GFLAGS_IS_SUBPROJECT)
+if (NOT JFLAGS_IS_SUBPROJECT)
   foreach (varname IN ITEMS CMAKE_INSTALL_PREFIX)
-    gflags_property (${varname} ADVANCED FALSE)
+    jflags_property (${varname} ADVANCED FALSE)
   endforeach ()
   foreach (varname IN ITEMS CMAKE_CONFIGURATION_TYPES CMAKE_OSX_ARCHITECTURES CMAKE_OSX_DEPLOYMENT_TARGET CMAKE_OSX_SYSROOT)
-    gflags_property (${varname} ADVANCED TRUE)
+    jflags_property (${varname} ADVANCED TRUE)
   endforeach ()
   if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CXX_FLAGS)
-    gflags_set (CMAKE_BUILD_TYPE Release)
+    jflags_set (CMAKE_BUILD_TYPE Release)
   endif ()
   if (CMAKE_CONFIGURATION_TYPES)
-    gflags_property (CMAKE_BUILD_TYPE STRINGS "${CMAKE_CONFIGURATION_TYPES}")
+    jflags_property (CMAKE_BUILD_TYPE STRINGS "${CMAKE_CONFIGURATION_TYPES}")
   endif ()
-endif () # NOT GFLAGS_IS_SUBPROJECT
+endif () # NOT JFLAGS_IS_SUBPROJECT
 
 if (NOT BUILD_SHARED_LIBS AND NOT BUILD_STATIC_LIBS)
   set (BUILD_STATIC_LIBS ON)
 endif ()
-if (NOT BUILD_gflags_LIB AND NOT BUILD_gflags_nothreads_LIB)
-  message (FATAL_ERROR "At least one of [GFLAGS_]BUILD_gflags_LIB and [GFLAGS_]BUILD_gflags_nothreads_LIB must be ON.")
+if (NOT BUILD_jflags_LIB AND NOT BUILD_jflags_nothreads_LIB)
+  message (FATAL_ERROR "At least one of [JFLAGS_]BUILD_jflags_LIB and [JFLAGS_]BUILD_jflags_nothreads_LIB must be ON.")
 endif ()
 
-gflags_define (STRING INCLUDE_DIR "Name of include directory of installed header files relative to CMAKE_INSTALL_PREFIX/include/" "${PACKAGE_NAME}")
-gflags_property (INCLUDE_DIR ADVANCED TRUE)
+jflags_define (STRING INCLUDE_DIR "Name of include directory of installed header files relative to CMAKE_INSTALL_PREFIX/include/" "${PACKAGE_NAME}")
+jflags_property (INCLUDE_DIR ADVANCED TRUE)
 if (IS_ABSOLUTE INCLUDE_DIR)
-  message (FATAL_ERROR "[GFLAGS_]INCLUDE_DIR must be a path relative to CMAKE_INSTALL_PREFIX/include/")
+  message (FATAL_ERROR "[JFLAGS_]INCLUDE_DIR must be a path relative to CMAKE_INSTALL_PREFIX/include/")
 endif ()
 if (INCLUDE_DIR MATCHES "^\\.\\.[/\\]")
-  message (FATAL_ERROR "[GFLAGS_]INCLUDE_DIR must not start with parent directory reference (../)")
+  message (FATAL_ERROR "[JFLAGS_]INCLUDE_DIR must not start with parent directory reference (../)")
 endif ()
-set (GFLAGS_INCLUDE_DIR "${INCLUDE_DIR}")
+set (JFLAGS_INCLUDE_DIR "${INCLUDE_DIR}")
 
 # ----------------------------------------------------------------------------
 # system checks
@@ -239,9 +239,9 @@ else ()
   endif ()
 endif ()
 
-gflags_define (STRING INTTYPES_FORMAT "Format of integer types: \"C99\" (uint32_t), \"BSD\" (u_int32_t), \"VC7\" (__int32)" "")
-gflags_property (INTTYPES_FORMAT STRINGS "C99;BSD;VC7")
-gflags_property (INTTYPES_FORMAT ADVANCED TRUE)
+jflags_define (STRING INTTYPES_FORMAT "Format of integer types: \"C99\" (uint32_t), \"BSD\" (u_int32_t), \"VC7\" (__int32)" "")
+jflags_property (INTTYPES_FORMAT STRINGS "C99;BSD;VC7")
+jflags_property (INTTYPES_FORMAT ADVANCED TRUE)
 if (NOT INTTYPES_FORMAT)
   set (TYPES uint32_t u_int32_t)
   if (MSVC)
@@ -254,30 +254,30 @@ if (NOT INTTYPES_FORMAT)
     endif ()
   endforeach ()
   if (HAVE_uint32_t)
-    gflags_set (INTTYPES_FORMAT C99)
+    jflags_set (INTTYPES_FORMAT C99)
   elseif (HAVE_u_int32_t)
-    gflags_set (INTTYPES_FORMAT BSD)
+    jflags_set (INTTYPES_FORMAT BSD)
   elseif (HAVE___int32)
-    gflags_set (INTTYPES_FORMAT VC7)
+    jflags_set (INTTYPES_FORMAT VC7)
   else ()
-    gflags_property (INTTYPES_FORMAT ADVANCED FALSE)
+    jflags_property (INTTYPES_FORMAT ADVANCED FALSE)
     message (FATAL_ERROR "Do not know how to define a 32-bit integer quantity on your system!"
                          " Neither uint32_t, u_int32_t, nor __int32 seem to be available."
-                         " Set [GFLAGS_]INTTYPES_FORMAT to either C99, BSD, or VC7 and try again.")
+                         " Set [JFLAGS_]INTTYPES_FORMAT to either C99, BSD, or VC7 and try again.")
   endif ()
 endif ()
 # use of special characters in strings to circumvent bug #0008226
 if ("^${INTTYPES_FORMAT}$" STREQUAL "^WIN$")
-  gflags_set (INTTYPES_FORMAT VC7)
+  jflags_set (INTTYPES_FORMAT VC7)
 endif ()
 if (NOT INTTYPES_FORMAT MATCHES "^(C99|BSD|VC7)$")
-  message (FATAL_ERROR "Invalid value for [GFLAGS_]INTTYPES_FORMAT! Choose one of \"C99\", \"BSD\", or \"VC7\"")
+  message (FATAL_ERROR "Invalid value for [JFLAGS_]INTTYPES_FORMAT! Choose one of \"C99\", \"BSD\", or \"VC7\"")
 endif ()
-set (GFLAGS_INTTYPES_FORMAT "${INTTYPES_FORMAT}")
-set (GFLAGS_INTTYPES_FORMAT_C99 0)
-set (GFLAGS_INTTYPES_FORMAT_BSD 0)
-set (GFLAGS_INTTYPES_FORMAT_VC7 0)
-set ("GFLAGS_INTTYPES_FORMAT_${INTTYPES_FORMAT}" 1)
+set (JFLAGS_INTTYPES_FORMAT "${INTTYPES_FORMAT}")
+set (JFLAGS_INTTYPES_FORMAT_C99 0)
+set (JFLAGS_INTTYPES_FORMAT_BSD 0)
+set (JFLAGS_INTTYPES_FORMAT_VC7 0)
+set ("JFLAGS_INTTYPES_FORMAT_${INTTYPES_FORMAT}" 1)
 
 if (MSVC)
   set (HAVE_strtoll 0)
@@ -289,7 +289,7 @@ else ()
   endif ()
 endif ()
 
-if (BUILD_gflags_LIB)
+if (BUILD_jflags_LIB)
   set (CMAKE_THREAD_PREFER_PTHREAD TRUE)
   find_package (Threads)
   if (Threads_FOUND AND CMAKE_USE_PTHREADS_INIT)
@@ -306,7 +306,7 @@ if (BUILD_gflags_LIB)
     endif ()
     message (FATAL_ERROR "Could not find pthread${what}. Check the log file"
                          "\n\t${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log"
-                         "\nor disable the build of the multi-threaded gflags library (BUILD_gflags_LIB=OFF).")
+                         "\nor disable the build of the multi-threaded jflags library (BUILD_jflags_LIB=OFF).")
   endif ()
 else ()
   set (HAVE_PTHREAD 0)
@@ -315,22 +315,22 @@ endif ()
 # ----------------------------------------------------------------------------
 # source files - excluding root subdirectory and/or .in suffix
 set (PUBLIC_HDRS
-  "gflags.h"
-  "gflags_declare.h"
-  "gflags_completions.h"
+  "jflags.h"
+  "jflags_declare.h"
+  "jflags_completions.h"
 )
 
-if (GFLAGS_NAMESPACE_SECONDARY)
-  set (INCLUDE_GFLAGS_NS_H "// Import gflags library symbols into alternative/deprecated namespace(s)")
-  foreach (ns IN LISTS GFLAGS_NAMESPACE_SECONDARY)
+if (JFLAGS_NAMESPACE_SECONDARY)
+  set (INCLUDE_JFLAGS_NS_H "// Import jflags library symbols into alternative/deprecated namespace(s)")
+  foreach (ns IN LISTS JFLAGS_NAMESPACE_SECONDARY)
     string (TOUPPER "${ns}" NS)
-    set (gflags_ns_h "${PROJECT_BINARY_DIR}/include/${GFLAGS_INCLUDE_DIR}/gflags_${ns}.h")
-    configure_file ("${PROJECT_SOURCE_DIR}/src/gflags_ns.h.in" "${gflags_ns_h}" @ONLY)
-    list (APPEND PUBLIC_HDRS "${gflags_ns_h}")
-    set (INCLUDE_GFLAGS_NS_H "${INCLUDE_GFLAGS_NS_H}\n#include \"gflags_${ns}.h\"")
+    set (jflags_ns_h "${PROJECT_BINARY_DIR}/include/${JFLAGS_INCLUDE_DIR}/jflags_${ns}.h")
+    configure_file ("${PROJECT_SOURCE_DIR}/src/jflags_ns.h.in" "${jflags_ns_h}" @ONLY)
+    list (APPEND PUBLIC_HDRS "${jflags_ns_h}")
+    set (INCLUDE_JFLAGS_NS_H "${INCLUDE_JFLAGS_NS_H}\n#include \"jflags_${ns}.h\"")
   endforeach ()
 else ()
-  set (INCLUDE_GFLAGS_NS_H)
+  set (INCLUDE_JFLAGS_NS_H)
 endif ()
 
 set (PRIVATE_HDRS
@@ -339,45 +339,45 @@ set (PRIVATE_HDRS
   "mutex.h"
 )
 
-set (GFLAGS_SRCS
-  "gflags.cc"
-  "gflags_reporting.cc"
-  "gflags_completions.cc"
+set (JFLAGS_SRCS
+  "jflags.cc"
+  "jflags_reporting.cc"
+  "jflags_completions.cc"
 )
 
 if (OS_WINDOWS)
   list (APPEND PRIVATE_HDRS "windows_port.h")
-  list (APPEND GFLAGS_SRCS  "windows_port.cc")
+  list (APPEND JFLAGS_SRCS  "windows_port.cc")
 endif ()
 
 # ----------------------------------------------------------------------------
 # configure source files
-if (NOT DEFINED GFLAGS_ATTRIBUTE_UNUSED)
+if (NOT DEFINED JFLAGS_ATTRIBUTE_UNUSED)
   if (CMAKE_COMPILER_IS_GNUCXX)
-    set (GFLAGS_ATTRIBUTE_UNUSED "__attribute((unused))")
+    set (JFLAGS_ATTRIBUTE_UNUSED "__attribute((unused))")
   else ()
-    set (GFLAGS_ATTRIBUTE_UNUSED)
+    set (JFLAGS_ATTRIBUTE_UNUSED)
   endif ()
 endif ()
 
 # whenever we build a shared library (DLL on Windows), configure the public
 # headers of the API for use of this library rather than the optionally
-# also build statically linked library; users can override GFLAGS_DLL_DECL
-if (NOT DEFINED GFLAGS_IS_A_DLL)
+# also build statically linked library; users can override JFLAGS_DLL_DECL
+if (NOT DEFINED JFLAGS_IS_A_DLL)
   if (BUILD_SHARED_LIBS)
-    set (GFLAGS_IS_A_DLL 1)
+    set (JFLAGS_IS_A_DLL 1)
   else ()
-    set (GFLAGS_IS_A_DLL 0)
+    set (JFLAGS_IS_A_DLL 0)
   endif ()
 endif ()
 
 configure_headers (PUBLIC_HDRS  ${PUBLIC_HDRS})
 configure_sources (PRIVATE_HDRS ${PRIVATE_HDRS})
-configure_sources (GFLAGS_SRCS  ${GFLAGS_SRCS})
+configure_sources (JFLAGS_SRCS  ${JFLAGS_SRCS})
 
 # ----------------------------------------------------------------------------
 # output directories
-if (NOT GFLAGS_IS_SUBPROJECT)
+if (NOT JFLAGS_IS_SUBPROJECT)
   set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin")
   set (CMAKE_LIBRARY_OUTPUT_DIRECTORY "lib")
   set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY "lib")
@@ -395,11 +395,11 @@ else ()
   # The LIB_INSTALL_DIR and LIB_SUFFIX variables are used by the Fedora
   # package maintainers. Also package maintainers of other distribution
   # packages need to be able to specify the name of the library directory.
-  if (NOT GFLAGS_LIBRARY_INSTALL_DIR AND LIB_INSTALL_DIR)
-    set (GFLAGS_LIBRARY_INSTALL_DIR "${LIB_INSTALL_DIR}")
+  if (NOT JFLAGS_LIBRARY_INSTALL_DIR AND LIB_INSTALL_DIR)
+    set (JFLAGS_LIBRARY_INSTALL_DIR "${LIB_INSTALL_DIR}")
   endif ()
-  gflags_define (PATH LIBRARY_INSTALL_DIR "Directory of installed libraries, e.g., \"lib64\"" "lib${LIB_SUFFIX}")
-  gflags_property (LIBRARY_INSTALL_DIR ADVANCED TRUE)
+  jflags_define (PATH LIBRARY_INSTALL_DIR "Directory of installed libraries, e.g., \"lib64\"" "lib${LIB_SUFFIX}")
+  jflags_property (LIBRARY_INSTALL_DIR ADVANCED TRUE)
   set (INCLUDE_INSTALL_DIR include)
   set (CONFIG_INSTALL_DIR  ${LIBRARY_INSTALL_DIR}/cmake/${PACKAGE_NAME})
 endif ()
@@ -413,9 +413,9 @@ foreach (TYPE IN ITEMS STATIC SHARED)
     string (TOLOWER "${TYPE}" type)
     # whether or not targets are a DLL
     if (OS_WINDOWS AND "^${TYPE}$" STREQUAL "^SHARED$")
-      set (GFLAGS_IS_A_DLL 1)
+      set (JFLAGS_IS_A_DLL 1)
     else ()
-      set (GFLAGS_IS_A_DLL 0)
+      set (JFLAGS_IS_A_DLL 0)
     endif ()
     # filename suffix for static libraries on Windows
     if (OS_WINDOWS AND "^${TYPE}$" STREQUAL "^STATIC$")
@@ -425,40 +425,40 @@ foreach (TYPE IN ITEMS STATIC SHARED)
     endif ()
     # multi-threaded vs. single-threaded
     foreach (opts IN ITEMS "" _nothreads)
-      if (BUILD_gflags${opts}_LIB)
-        add_library (gflags${opts}_${type} ${TYPE} ${GFLAGS_SRCS} ${PRIVATE_HDRS} ${PUBLIC_HDRS})
+      if (BUILD_jflags${opts}_LIB)
+        add_library (jflags${opts}_${type} ${TYPE} ${JFLAGS_SRCS} ${PRIVATE_HDRS} ${PUBLIC_HDRS})
         set (include_dirs "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>")
         if (INSTALL_HEADERS)
           list (APPEND include_dirs "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}>")
         endif ()
-        target_include_directories (gflags${opts}_${type}
+        target_include_directories (jflags${opts}_${type}
           PUBLIC  "${include_dirs}"
-          PRIVATE "${PROJECT_SOURCE_DIR}/src;${PROJECT_BINARY_DIR}/include/${GFLAGS_INCLUDE_DIR}"
+          PRIVATE "${PROJECT_SOURCE_DIR}/src;${PROJECT_BINARY_DIR}/include/${JFLAGS_INCLUDE_DIR}"
         )
         if (opts MATCHES "nothreads")
-          set (defines "GFLAGS_IS_A_DLL=${GFLAGS_IS_A_DLL};NO_THREADS")
+          set (defines "JFLAGS_IS_A_DLL=${JFLAGS_IS_A_DLL};NO_THREADS")
         else ()
-          set (defines "GFLAGS_IS_A_DLL=${GFLAGS_IS_A_DLL}")
+          set (defines "JFLAGS_IS_A_DLL=${JFLAGS_IS_A_DLL}")
           if (CMAKE_USE_PTHREADS_INIT)
-            target_link_libraries (gflags${opts}_${type} ${CMAKE_THREAD_LIBS_INIT})
+            target_link_libraries (jflags${opts}_${type} ${CMAKE_THREAD_LIBS_INIT})
           endif ()
         endif ()
         set_target_properties (
-          gflags${opts}_${type} PROPERTIES COMPILE_DEFINITIONS "${defines}"
-                                           OUTPUT_NAME         "gflags${opts}${type_suffix}"
+          jflags${opts}_${type} PROPERTIES COMPILE_DEFINITIONS "${defines}"
+                                           OUTPUT_NAME         "jflags${opts}${type_suffix}"
                                            VERSION             "${PACKAGE_VERSION}"
                                            SOVERSION           "${PACKAGE_SOVERSION}"
         )
         if (HAVE_SHLWAPI_H)
-          target_link_libraries (gflags${opts}_${type} shlwapi.lib)
+          target_link_libraries (jflags${opts}_${type} shlwapi.lib)
         endif ()
-        list (APPEND TARGETS gflags${opts}_${type})
+        list (APPEND TARGETS jflags${opts}_${type})
         # add convenience make target for build of both shared and static libraries
-        if (NOT GFLAGS_IS_SUBPROJECT)
-          if (NOT TARGET gflags${opts})
-            add_custom_target (gflags${opts})
+        if (NOT JFLAGS_IS_SUBPROJECT)
+          if (NOT TARGET jflags${opts})
+            add_custom_target (jflags${opts})
           endif ()
-          add_dependencies (gflags${opts} gflags${opts}_${type})
+          add_dependencies (jflags${opts} jflags${opts}_${type})
         endif ()
       endif ()
     endforeach ()
@@ -466,15 +466,15 @@ foreach (TYPE IN ITEMS STATIC SHARED)
 endforeach ()
 
 # add ALIAS target for use in super-project, prefer static over shared, single-threaded over multi-threaded
-if (GFLAGS_IS_SUBPROJECT)
+if (JFLAGS_IS_SUBPROJECT)
   foreach (type IN ITEMS static shared)
     foreach (opts IN ITEMS "_nothreads" "")
-      if (TARGET gflags${opts}_${type})
-        add_library (gflags ALIAS gflags${opts}_${type})
+      if (TARGET jflags${opts}_${type})
+        add_library (jflags ALIAS jflags${opts}_${type})
         break ()
       endif ()
     endforeach ()
-    if (TARGET gflags)
+    if (TARGET jflags)
        break ()
     endif ()
   endforeach ()
@@ -488,21 +488,21 @@ configure_file (cmake/version.cmake.in "${PROJECT_BINARY_DIR}/${PACKAGE_NAME}-co
 
 if (BUILD_SHARED_LIBS AND INSTALL_SHARED_LIBS)
   foreach (opts IN ITEMS "" _nothreads)
-    if (BUILD_gflags${opts}_LIB)
-      install (TARGETS gflags${opts}_shared DESTINATION ${LIBRARY_INSTALL_DIR} EXPORT gflags-lib)
+    if (BUILD_jflags${opts}_LIB)
+      install (TARGETS jflags${opts}_shared DESTINATION ${LIBRARY_INSTALL_DIR} EXPORT jflags-lib)
     endif ()
   endforeach ()
 endif ()
 if (BUILD_STATIC_LIBS AND INSTALL_STATIC_LIBS)
   foreach (opts IN ITEMS "" _nothreads)
-    if (BUILD_gflags${opts}_LIB)
-      install (TARGETS gflags${opts}_static DESTINATION ${LIBRARY_INSTALL_DIR} EXPORT gflags-lib)
+    if (BUILD_jflags${opts}_LIB)
+      install (TARGETS jflags${opts}_static DESTINATION ${LIBRARY_INSTALL_DIR} EXPORT jflags-lib)
     endif ()
   endforeach ()
 endif ()
 
 if (INSTALL_HEADERS)
-  install (FILES ${PUBLIC_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/${GFLAGS_INCLUDE_DIR})
+  install (FILES ${PUBLIC_HDRS} DESTINATION ${INCLUDE_INSTALL_DIR}/${JFLAGS_INCLUDE_DIR})
   install (
     FILES "${PROJECT_BINARY_DIR}/${PACKAGE_NAME}-config-install.cmake"
     RENAME ${PACKAGE_NAME}-config.cmake
@@ -512,9 +512,9 @@ if (INSTALL_HEADERS)
     FILES "${PROJECT_BINARY_DIR}/${PACKAGE_NAME}-config-version.cmake"
     DESTINATION ${CONFIG_INSTALL_DIR}
   )
-  install (EXPORT gflags-lib DESTINATION ${CONFIG_INSTALL_DIR} FILE ${PACKAGE_NAME}-targets.cmake)
+  install (EXPORT jflags-lib DESTINATION ${CONFIG_INSTALL_DIR} FILE ${PACKAGE_NAME}-targets.cmake)
   if (UNIX)
-    install (PROGRAMS src/gflags_completions.sh DESTINATION ${RUNTIME_INSTALL_DIR})
+    install (PROGRAMS src/jflags_completions.sh DESTINATION ${RUNTIME_INSTALL_DIR})
   endif ()
 endif ()
 
@@ -522,7 +522,7 @@ endif ()
 # support direct use of build tree
 set (INSTALL_PREFIX_REL2CONFIG_DIR .)
 export (TARGETS ${TARGETS} FILE "${PROJECT_BINARY_DIR}/${PACKAGE_NAME}-targets.cmake")
-export (PACKAGE gflags)
+export (PACKAGE jflags)
 configure_file (cmake/config.cmake.in "${PROJECT_BINARY_DIR}/${PACKAGE_NAME}-config.cmake" @ONLY)
 
 # ----------------------------------------------------------------------------
@@ -574,7 +574,7 @@ if (BUILD_PACKAGING)
 
   # common package information
   set (CPACK_PACKAGE_VENDOR              "Andreas Schuh")
-  set (CPACK_PACKAGE_CONTACT             "google-gflags@googlegroups.com")
+  set (CPACK_PACKAGE_CONTACT             "google-jflags@googlegroups.com")
   set (CPACK_PACKAGE_NAME                "${PACKAGE_NAME}")
   set (CPACK_PACKAGE_VERSION             "${PACKAGE_VERSION}")
   set (CPACK_PACKAGE_VERSION_MAJOR       "${PACKAGE_VERSION_MAJOR}")
@@ -592,7 +592,7 @@ if (BUILD_PACKAGING)
   # RPM package information -- used in cmake/package.cmake.in also for DEB
   set (CPACK_RPM_PACKAGE_GROUP   "Development/Libraries")
   set (CPACK_RPM_PACKAGE_LICENSE "BSD")
-  set (CPACK_RPM_PACKAGE_URL     "http://gflags.github.io/gflags")
+  set (CPACK_RPM_PACKAGE_URL     "http://jflags.github.io/jflags")
   set (CPACK_RPM_CHANGELOG_FILE  "${CMAKE_CURRENT_LIST_DIR}/ChangeLog.txt")
 
   if (INSTALL_HEADERS)

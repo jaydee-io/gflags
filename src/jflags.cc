@@ -88,7 +88,7 @@
 // are, similarly, mostly hooks into the functionality described above.
 
 #include "config.h"
-#include "gflags.h"
+#include "jflags.h"
 
 #include <assert.h>
 #include <ctype.h>
@@ -126,7 +126,7 @@ DEFINE_string(undefok, "", "comma-separated list of flag names that it is okay t
                            "with that name.  IMPORTANT: flags in this list that have "
                            "arguments MUST use the flag=value format");
 
-namespace GFLAGS_NAMESPACE {
+namespace JFLAGS_NAMESPACE {
 
 using std::map;
 using std::pair;
@@ -135,20 +135,20 @@ using std::string;
 using std::vector;
 
 // This is used by the unittest to test error-exit code
-void GFLAGS_DLL_DECL (*gflags_exitfunc)(int) = &exit;  // from stdlib.h
+void JFLAGS_DLL_DECL (*jflags_exitfunc)(int) = &exit;  // from stdlib.h
 
 
 // The help message indicating that the commandline flag has been
 // 'stripped'. It will not show up when doing "-help" and its
 // variants. The flag is stripped if STRIP_FLAG_HELP is set to 1
-// before including base/gflags.h
+// before including base/jflags.h
 
-// This is used by this file, and also in gflags_reporting.cc
+// This is used by this file, and also in jflags_reporting.cc
 const char kStrippedFlagHelp[] = "\001\002\003\004 (unknown) \004\003\002\001";
 
 namespace {
 
-// There are also 'reporting' flags, in gflags_reporting.cc.
+// There are also 'reporting' flags, in jflags_reporting.cc.
 
 static const char kError[] = "ERROR: ";
 
@@ -177,7 +177,7 @@ static void ReportError(DieWhenReporting should_die, const char* format, ...) {
   va_end(ap);
   fprintf(stderr, "%s", error_message);
   fflush(stderr);   // should be unnecessary, but cygwin's rxvt buffers stderr
-  if (should_die == DIE) gflags_exitfunc(1);
+  if (should_die == DIE) jflags_exitfunc(1);
 }
 
 
@@ -199,7 +199,7 @@ class FlagValue {
 
  private:
   friend class CommandLineFlag;  // for many things, including Validate()
-  friend class GFLAGS_NAMESPACE::FlagSaverImpl;  // calls New()
+  friend class JFLAGS_NAMESPACE::FlagSaverImpl;  // calls New()
   friend class FlagRegistry;     // checks value_buffer_ for flags_by_ptr_ map
   template <typename T> friend T GetFromEnv(const char*, const char*, T);
   friend bool TryParseLocked(const CommandLineFlag*, FlagValue*,
@@ -519,7 +519,7 @@ class CommandLineFlag {
  private:
   // for SetFlagLocked() and setting flags_by_ptr_
   friend class FlagRegistry;
-  friend class GFLAGS_NAMESPACE::FlagSaverImpl;  // for cloning the values
+  friend class JFLAGS_NAMESPACE::FlagSaverImpl;  // for cloning the values
   // set validate_fn
   friend bool AddFlagValidator(const void*, ValidateFnProto);
 
@@ -686,9 +686,9 @@ class FlagRegistry {
   static FlagRegistry* GlobalRegistry();   // returns a singleton registry
 
  private:
-  friend class GFLAGS_NAMESPACE::FlagSaverImpl;  // reads all the flags in order to copy them
+  friend class JFLAGS_NAMESPACE::FlagSaverImpl;  // reads all the flags in order to copy them
   friend class CommandLineFlagParser;    // for ValidateAllFlags
-  friend void GFLAGS_NAMESPACE::GetAllFlags(vector<CommandLineFlagInfo>*);
+  friend void JFLAGS_NAMESPACE::GetAllFlags(vector<CommandLineFlagInfo>*);
 
   // The map from name to flag, for FindFlagLocked().
   typedef map<const char*, CommandLineFlag*, StringCmp> FlagMap;
@@ -920,7 +920,7 @@ FlagRegistry* FlagRegistry::GlobalRegistry() {
 //    along with an explanation of the trouble.  In stage 2, we
 //    handle the 'reporting' flags like --help and --mpm_version.
 //    (This is via a call to HandleCommandLineHelpFlags(), in
-//    gflags_reporting.cc.)
+//    jflags_reporting.cc.)
 //    An optional stage 3 prints out the error messages.
 //       This is a bit of a simplification.  For instance, --flagfile
 //    is handled as soon as it's seen in stage 1, not in stage 2.
@@ -940,7 +940,7 @@ class CommandLineFlagParser {
   uint32 ParseNewCommandLineFlags(int* argc, char*** argv, bool remove_flags);
 
   // Stage 2: print reporting info and exit, if requested.
-  // In gflags_reporting.cc:HandleCommandLineHelpFlags().
+  // In jflags_reporting.cc:HandleCommandLineHelpFlags().
 
   // Stage 3: validate all the commandline flags that have validators
   // registered.
@@ -1012,7 +1012,7 @@ static void ParseFlagList(const char* value, vector<string>* flags) {
 // can do all the I/O in one place and not worry about it everywhere.
 // Plus, it's convenient to have the whole file contents at hand.
 // Adds a newline at the end of the file.
-#define PFATAL(s)  do { perror(s); gflags_exitfunc(1); } while (0)
+#define PFATAL(s)  do { perror(s); jflags_exitfunc(1); } while (0)
 
 static string ReadFileIntoString(const char* filename) {
   const int kBufSize = 8092;
@@ -1604,7 +1604,7 @@ CommandLineFlagInfo GetCommandLineFlagInfoOrDie(const char* name) {
   CommandLineFlagInfo info;
   if (!GetCommandLineFlagInfo(name, &info)) {
     fprintf(stderr, "FATAL ERROR: flag name '%s' doesn't exist\n", name);
-    gflags_exitfunc(1);    // almost certainly gflags_exitfunc()
+    jflags_exitfunc(1);    // almost certainly jflags_exitfunc()
   }
   return info;
 }
@@ -1765,7 +1765,7 @@ bool ReadFlagsFromString(const string& flagfilecontents,
   if (parser.ReportErrors()) {
     // Error.  Restore all global flags to their previous values.
     if (errors_are_fatal)
-      gflags_exitfunc(1);
+      jflags_exitfunc(1);
     saved_states.RestoreToRegistry();
     return false;
   }
@@ -1899,7 +1899,7 @@ bool RegisterFlagValidator(const string* flag,
 // HandleCommandLineHelpFlags()
 //    This is the main function called from main(), to actually
 //    parse the commandline.  It modifies argc and argv as described
-//    at the top of gflags.h.  You can also divide this
+//    at the top of jflags.h.  You can also divide this
 //    function into two parts, if you want to do work between
 //    the parsing of the flags and the printing of any help output.
 // --------------------------------------------------------------------
@@ -1933,7 +1933,7 @@ static uint32 ParseCommandLineFlagsInternal(int* argc, char*** argv,
   parser.ValidateAllFlags();
 
   if (parser.ReportErrors())        // may cause us to exit on illegal flags
-    gflags_exitfunc(1);
+    jflags_exitfunc(1);
   return r;
 }
 
@@ -1983,4 +1983,4 @@ void ShutDownCommandLineFlags() {
 }
 
 
-} // namespace GFLAGS_NAMESPACE
+} // namespace JFLAGS_NAMESPACE

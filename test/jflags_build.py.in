@@ -9,7 +9,7 @@ CMAKE            = '@CMAKE_COMMAND@'
 CMAKE_BUILD_TYPE = '@CMAKE_BUILD_TYPE@'
 TMPDIR           = '@TMPDIR@'
 SRCDIR           = '@SRCDIR@'
-GFLAGS_DIR       = '@gflags_BINARY_DIR@'
+JFLAGS_DIR       = '@jflags_BINARY_DIR@'
 
 if __name__ == "__main__":
   if len(sys.argv) != 4:
@@ -27,7 +27,7 @@ if __name__ == "__main__":
   os.makedirs(bindir)
   # configure the build tree
   if subprocess.call([CMAKE, '-DCMAKE_BUILD_TYPE:STRING='+CMAKE_BUILD_TYPE,
-                             '-Dgflags_DIR:PATH='+GFLAGS_DIR,
+                             '-Djflags_DIR:PATH='+JFLAGS_DIR,
                              '-DTEST_NAME:STRING='+test_name, srcdir], cwd=bindir) != 0:
     sys.stderr.write('Failed to configure the build tree!\n')
     sys.exit(1)

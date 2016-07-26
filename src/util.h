@@ -31,8 +31,8 @@
 // Some generically useful utility routines that in google-land would
 // be their own projects.  We make a shortened version here.
 
-#ifndef GFLAGS_UTIL_H_
-#define GFLAGS_UTIL_H_
+#ifndef JFLAGS_UTIL_H_
+#define JFLAGS_UTIL_H_
 
 #include "config.h"
 
@@ -51,11 +51,11 @@
 #endif
 
 
-namespace GFLAGS_NAMESPACE {
+namespace JFLAGS_NAMESPACE {
 
 
-// This is used for unittests for death-testing.  It is defined in gflags.cc.
-extern GFLAGS_DLL_DECL void (*gflags_exitfunc)(int);
+// This is used for unittests for death-testing.  It is defined in jflags.cc.
+extern JFLAGS_DLL_DECL void (*jflags_exitfunc)(int);
 
 // Work properly if either strtoll or strtoq is on this system.
 #if defined(strtoll) || defined(HAVE_STRTOLL)
@@ -217,9 +217,9 @@ class Test {};
 #define EXPECT_DEATH(fn, msg)                                           \
   do {                                                                  \
     g_called_exit = false;                                              \
-    gflags_exitfunc = &CalledExit;                            \
+    jflags_exitfunc = &CalledExit;                            \
     fn;                                                                 \
-    gflags_exitfunc = &exit;    /* set back to its default */ \
+    jflags_exitfunc = &exit;    /* set back to its default */ \
     if (!g_called_exit) {                                               \
       fprintf(stderr, "Function didn't die (%s): %s\n", msg, #fn);      \
       exit(1);                                                          \
@@ -236,12 +236,12 @@ class Test {};
 #include <io.h>
 inline void MakeTmpdir(std::string* path) {
   if (!path->empty()) {
-	path->append("/gflags_unittest_testdir");
+	path->append("/jflags_unittest_testdir");
 	int err = mkdir(path->c_str());
 	if (err == 0 || errno == EEXIST) return;
   }
   // I had trouble creating a directory in /tmp from mingw
-  *path = "./gflags_unittest";
+  *path = "./jflags_unittest";
   mkdir(path->c_str());
 }
 #elif defined(_MSC_VER)
@@ -255,7 +255,7 @@ inline void MakeTmpdir(std::string* path) {
   int tmppath_len = GetTempPathA(sizeof(tmppath_buffer), tmppath_buffer);
   assert(tmppath_len > 0 && tmppath_len < sizeof(tmppath_buffer));
   assert(tmppath_buffer[tmppath_len - 1] == '\\');   // API guarantees it
-  *path = std::string(tmppath_buffer) + "gflags_unittest";
+  *path = std::string(tmppath_buffer) + "jflags_unittest";
   _mkdir(path->c_str());
 }
 #else
@@ -264,7 +264,7 @@ inline void MakeTmpdir(std::string* path) {
 	int err = mkdir(path->c_str(), 0755);
 	if (err == 0 || errno == EEXIST) return;
   }
-  mkdir("/tmp/gflags_unittest", 0755);
+  mkdir("/tmp/jflags_unittest", 0755);
 }
 #endif
 
@@ -367,7 +367,7 @@ inline int SafeFOpen(FILE **fp, const char* fname, const char *mode)
 }
 
 
-} // namespace GFLAGS_NAMESPACE
+} // namespace JFLAGS_NAMESPACE
 
 
-#endif  // GFLAGS_UTIL_H_
+#endif  // JFLAGS_UTIL_H_

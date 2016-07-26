@@ -40,7 +40,7 @@
 // HandleCommandLineHelpFlags().  (Well, actually, ShowUsageWithFlags(),
 // ShowUsageWithFlagsRestrict(), and DescribeOneFlag() can be called
 // externally too, but there's little need for it.)  These are all
-// declared in the main gflags.h header file.
+// declared in the main jflags.h header file.
 //
 // HandleCommandLineHelpFlags() will check what 'reporting' flags have
 // been defined, if any -- the "help" part of the function name is a
@@ -56,12 +56,12 @@
 #include <vector>
 
 #include "config.h"
-#include "gflags.h"
-#include "gflags_completions.h"
+#include "jflags.h"
+#include "jflags_completions.h"
 #include "util.h"
 
 
-// The 'reporting' flags.  They all call gflags_exitfunc().
+// The 'reporting' flags.  They all call jflags_exitfunc().
 DEFINE_bool  (help,        false, "show help on all flags [tip: all flags can have two dashes]");
 DEFINE_bool  (helpfull,    false, "show help on all flags -- same as -help");
 DEFINE_bool  (helpshort,   false, "show help on only the main module for this program");
@@ -72,7 +72,7 @@ DEFINE_bool  (helpxml,     false, "produce an xml version of help");
 DEFINE_bool  (version,     false, "show version and build info and exit");
 
 
-namespace GFLAGS_NAMESPACE {
+namespace JFLAGS_NAMESPACE {
 
 
 using std::string;
@@ -83,7 +83,7 @@ using std::vector;
 // DescribeOneFlag()
 // DescribeOneFlagInXML()
 //    Routines that pretty-print info about a flag.  These use
-//    a CommandLineFlagInfo, which is the way the gflags
+//    a CommandLineFlagInfo, which is the way the jflags
 //    API exposes static info about a flag.
 // --------------------------------------------------------------------
 
@@ -257,7 +257,7 @@ static bool FileMatchesSubstring(const string& filename,
 // Show help for every filename which matches any of the target substrings.
 // If substrings is empty, shows help for every file. If a flag's help message
 // has been stripped (e.g. by adding '#define STRIP_FLAG_HELP 1'
-// before including gflags/gflags.h), then this flag will not be displayed
+// before including jflags/jflags.h), then this flag will not be displayed
 // by '--help' and its variants.
 static void ShowUsageWithFlagsMatching(const char *argv0,
                                        const vector<string> &substrings) {
@@ -380,21 +380,21 @@ void HandleCommandLineHelpFlags() {
     // show only flags related to this binary:
     // E.g. for fileutil.cc, want flags containing   ... "/fileutil." cc
     ShowUsageWithFlagsMatching(progname, substrings);
-    gflags_exitfunc(1);
+    jflags_exitfunc(1);
 
   } else if (FLAGS_help || FLAGS_helpfull) {
     // show all options
     ShowUsageWithFlagsRestrict(progname, "");   // empty restrict
-    gflags_exitfunc(1);
+    jflags_exitfunc(1);
 
   } else if (!FLAGS_helpon.empty()) {
     string restrict = PATH_SEPARATOR + FLAGS_helpon + ".";
     ShowUsageWithFlagsRestrict(progname, restrict.c_str());
-    gflags_exitfunc(1);
+    jflags_exitfunc(1);
 
   } else if (!FLAGS_helpmatch.empty()) {
     ShowUsageWithFlagsRestrict(progname, FLAGS_helpmatch.c_str());
-    gflags_exitfunc(1);
+    jflags_exitfunc(1);
 
   } else if (FLAGS_helppackage) {
     // Shows help for all files in the same directory as main().  We
@@ -423,19 +423,19 @@ void HandleCommandLineHelpFlags() {
     if (last_package.empty()) {   // never found a package to print
       LOG(WARNING) << "Unable to find a package for file=" << progname;
     }
-    gflags_exitfunc(1);
+    jflags_exitfunc(1);
 
   } else if (FLAGS_helpxml) {
     ShowXMLOfFlags(progname);
-    gflags_exitfunc(1);
+    jflags_exitfunc(1);
 
   } else if (FLAGS_version) {
     ShowVersion();
     // Unlike help, we may be asking for version in a script, so return 0
-    gflags_exitfunc(0);
+    jflags_exitfunc(0);
 
   }
 }
 
 
-} // namespace GFLAGS_NAMESPACE
+} // namespace JFLAGS_NAMESPACE

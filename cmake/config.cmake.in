@@ -1,4 +1,4 @@
-## gflags CMake configuration file
+## jflags CMake configuration file
 
 # library version information
 set (@PACKAGE_PREFIX@_VERSION_STRING "@PACKAGE_VERSION@")
@@ -17,7 +17,7 @@ get_filename_component (_INSTALL_PREFIX "${CMAKE_CURRENT_LIST_DIR}/@INSTALL_PREF
 #
 # Newer versions of CMake set the INTERFACE_INCLUDE_DIRECTORIES property
 # of the imported targets. It is hence not necessary to add this path
-# manually to the include search path for targets which link to gflags.
+# manually to the include search path for targets which link to jflags.
 set (@PACKAGE_PREFIX@_INCLUDE_DIR "${_INSTALL_PREFIX}/@INCLUDE_INSTALL_DIR@")
 
 if (@PACKAGE_NAME@_FIND_COMPONENTS)

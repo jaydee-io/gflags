@@ -43,7 +43,7 @@ endfunction ()
 
 # ----------------------------------------------------------------------------
 ## Determine if cache entry exists
-macro (gflags_is_cached retvar varname)
+macro (jflags_is_cached retvar varname)
   if (DEFINED ${varname})
     get_property (${retvar} CACHE ${varname} PROPERTY TYPE SET)
   else ()
@@ -52,36 +52,36 @@ macro (gflags_is_cached retvar varname)
 endmacro ()
 
 # ----------------------------------------------------------------------------
-## Add gflags configuration variable
+## Add jflags configuration variable
 #
 # The default value of the (cached) configuration value can be overridden either
-# on the CMake command-line or the super-project by setting the GFLAGS_<varname>
-# variable. When gflags is a subproject of another project (GFLAGS_IS_SUBPROJECT),
+# on the CMake command-line or the super-project by setting the JFLAGS_<varname>
+# variable. When jflags is a subproject of another project (JFLAGS_IS_SUBPROJECT),
 # the variable is not added to the CMake cache. Otherwise it is cached.
-macro (gflags_define type varname docstring default)
+macro (jflags_define type varname docstring default)
   if (ARGC GREATER 5)
-    message (FATAL_ERROR "gflags_variable: Too many macro arguments")
+    message (FATAL_ERROR "jflags_variable: Too many macro arguments")
   endif ()
-  if (NOT DEFINED GFLAGS_${varname})
-    if (GFLAGS_IS_SUBPROJECT AND ARGC EQUAL 5)
-      set (GFLAGS_${varname} "${ARGV4}")
+  if (NOT DEFINED JFLAGS_${varname})
+    if (JFLAGS_IS_SUBPROJECT AND ARGC EQUAL 5)
+      set (JFLAGS_${varname} "${ARGV4}")
     else ()
-      set (GFLAGS_${varname} "${default}")
+      set (JFLAGS_${varname} "${default}")
     endif ()
   endif ()
-  if (GFLAGS_IS_SUBPROJECT)
+  if (JFLAGS_IS_SUBPROJECT)
     if (NOT DEFINED ${varname})
-      set (${varname} "${GFLAGS_${varname}}")
+      set (${varname} "${JFLAGS_${varname}}")
     endif ()
   else ()
-    set (${varname} "${GFLAGS_${varname}}" CACHE ${type} "${docstring}")
+    set (${varname} "${JFLAGS_${varname}}" CACHE ${type} "${docstring}")
   endif ()
 endmacro ()
 
 # ----------------------------------------------------------------------------
-## Set property of cached gflags configuration variable
-macro (gflags_property varname property value)
-  gflags_is_cached (_cached ${varname})
+## Set property of cached jflags configuration variable
+macro (jflags_property varname property value)
+  jflags_is_cached (_cached ${varname})
   if (_cached)
     if (property STREQUAL ADVANCED)
       if (${value})
@@ -97,9 +97,9 @@ macro (gflags_property varname property value)
 endmacro ()
 
 # ----------------------------------------------------------------------------
-## Modify value of gflags configuration variable
-macro (gflags_set varname value)
-  gflags_is_cached (_cached ${varname})
+## Modify value of jflags configuration variable
+macro (jflags_set varname value)
+  jflags_is_cached (_cached ${varname})
   if (_cached)
     set_property (CACHE ${varname} PROPERTY VALUE "${value}")
   else ()
@@ -116,11 +116,11 @@ function (configure_headers out)
     if (IS_ABSOLUTE "${src}")
       list (APPEND tmp "${src}")
     elseif (EXISTS "${PROJECT_SOURCE_DIR}/src/${src}.in")
-      configure_file ("${PROJECT_SOURCE_DIR}/src/${src}.in" "${PROJECT_BINARY_DIR}/include/${GFLAGS_INCLUDE_DIR}/${src}" @ONLY)
-      list (APPEND tmp "${PROJECT_BINARY_DIR}/include/${GFLAGS_INCLUDE_DIR}/${src}")
+      configure_file ("${PROJECT_SOURCE_DIR}/src/${src}.in" "${PROJECT_BINARY_DIR}/include/${JFLAGS_INCLUDE_DIR}/${src}" @ONLY)
+      list (APPEND tmp "${PROJECT_BINARY_DIR}/include/${JFLAGS_INCLUDE_DIR}/${src}")
     else ()
-	    configure_file ("${PROJECT_SOURCE_DIR}/src/${src}" "${PROJECT_BINARY_DIR}/include/${GFLAGS_INCLUDE_DIR}/${src}" COPYONLY)
-      list (APPEND tmp "${PROJECT_BINARY_DIR}/include/${GFLAGS_INCLUDE_DIR}/${src}")
+	    configure_file ("${PROJECT_SOURCE_DIR}/src/${src}" "${PROJECT_BINARY_DIR}/include/${JFLAGS_INCLUDE_DIR}/${src}" COPYONLY)
+      list (APPEND tmp "${PROJECT_BINARY_DIR}/include/${JFLAGS_INCLUDE_DIR}/${src}")
     endif ()
   endforeach ()
   set (${out} "${tmp}" PARENT_SCOPE)
@@ -132,8 +132,8 @@ function (configure_sources out)
   set (tmp)
   foreach (src IN LISTS ARGN)
     if (src MATCHES ".h$" AND EXISTS "${PROJECT_SOURCE_DIR}/src/${src}.in")
-      configure_file ("${PROJECT_SOURCE_DIR}/src/${src}.in" "${PROJECT_BINARY_DIR}/include/${GFLAGS_INCLUDE_DIR}/${src}" @ONLY)
-      list (APPEND tmp "${PROJECT_BINARY_DIR}/include/${GFLAGS_INCLUDE_DIR}/${src}")
+      configure_file ("${PROJECT_SOURCE_DIR}/src/${src}.in" "${PROJECT_BINARY_DIR}/include/${JFLAGS_INCLUDE_DIR}/${src}" @ONLY)
+      list (APPEND tmp "${PROJECT_BINARY_DIR}/include/${JFLAGS_INCLUDE_DIR}/${src}")
     else ()
       list (APPEND tmp "${PROJECT_SOURCE_DIR}/src/${src}")
     endif ()
@@ -148,7 +148,7 @@ endfunction ()
 # do as well, but CMake/CTest does not allow us to specify an
 # expected exit status. Moreover, the execute_test.cmake script
 # sets environment variables needed by the --fromenv/--tryfromenv tests.
-macro (add_gflags_test name expected_rc expected_output unexpected_output cmd)
+macro (add_jflags_test name expected_rc expected_output unexpected_output cmd)
   set (args "--test_tmpdir=${PROJECT_BINARY_DIR}/Testing/Temporary"
             "--srcdir=${PROJECT_SOURCE_DIR}/test")
   add_test (
@@ -158,6 +158,6 @@ macro (add_gflags_test name expected_rc expected_output unexpected_output cmd)
                                "-DEXPECTED_OUTPUT:STRING=${expected_output}"
                                "-DUNEXPECTED_OUTPUT:STRING=${unexpected_output}"
                                -P "${PROJECT_SOURCE_DIR}/cmake/execute_test.cmake"
-    WORKING_DIRECTORY "${GFLAGS_FLAGFILES_DIR}"
+    WORKING_DIRECTORY "${JFLAGS_FLAGFILES_DIR}"
   )
 endmacro ()

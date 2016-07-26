@@ -103,10 +103,10 @@
 // weird to a Mutex's memory after it is destroyed, but for a
 // static global variable, that's pretty safe.
 
-#ifndef GFLAGS_MUTEX_H_
-#define GFLAGS_MUTEX_H_
+#ifndef JFLAGS_MUTEX_H_
+#define JFLAGS_MUTEX_H_
 
-#include "gflags_declare.h"     // to figure out pthreads support
+#include "jflags_declare.h"     // to figure out pthreads support
 
 #if defined(NO_THREADS)
   typedef int MutexType;        // to keep a lock-count
@@ -150,7 +150,7 @@
 #include <assert.h>
 #include <stdlib.h>      // for abort()
 
-#define MUTEX_NAMESPACE gflags_mutex_namespace
+#define MUTEX_NAMESPACE jflags_mutex_namespace
 
 namespace MUTEX_NAMESPACE {
 
@@ -345,4 +345,4 @@ class WriterMutexLock {
 }  // namespace MUTEX_NAMESPACE
 
 
-#endif  /* #define GFLAGS_MUTEX_H__ */
+#endif  /* #define JFLAGS_MUTEX_H__ */

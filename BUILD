@@ -1,24 +1,24 @@
-# Bazel build file for gflags
+# Bazel build file for jflags
 #
-# See INSTALL.md for instructions for adding gflags to a Bazel workspace.
+# See INSTALL.md for instructions for adding jflags to a Bazel workspace.
 
 licenses(["notice"])
 
 cc_library(
-    name = "gflags",
+    name = "jflags",
     srcs = [
-        "src/gflags.cc",
-        "src/gflags_completions.cc",
-        "src/gflags_reporting.cc",
+        "src/jflags.cc",
+        "src/jflags_completions.cc",
+        "src/jflags_reporting.cc",
         "src/mutex.h",
         "src/util.h",
         ":config_h",
-        ":gflags_completions_h",
-        ":gflags_declare_h",
-        ":gflags_h",
+        ":jflags_completions_h",
+        ":jflags_declare_h",
+        ":jflags_h",
         ":includes",
     ],
-    hdrs = ["gflags.h"],
+    hdrs = ["jflags.h"],
     copts = [
         # The config.h gets generated to the package directory of
         # GENDIR, and we don't want to put it into the includes
@@ -35,7 +35,7 @@ cc_library(
         "-DHAVE_STRTOQ",
         "-DHAVE_PTHREAD",
         "-DHAVE_RWLOCK",
-        "-DGFLAGS_INTTYPES_FORMAT_C99",
+        "-DJFLAGS_INTTYPES_FORMAT_C99",
     ],
     includes = [
         "include",
@@ -55,38 +55,38 @@ genrule(
 )
 
 genrule(
-    name = "gflags_h",
+    name = "jflags_h",
     srcs = [
-        "src/gflags.h.in",
+        "src/jflags.h.in",
     ],
     outs = [
-        "gflags.h",
+        "jflags.h",
     ],
-    cmd = "awk '{ gsub(/@(GFLAGS_ATTRIBUTE_UNUSED|INCLUDE_GFLAGS_NS_H)@/, \"\"); print; }' $(<) > $(@)",
+    cmd = "awk '{ gsub(/@(JFLAGS_ATTRIBUTE_UNUSED|INCLUDE_JFLAGS_NS_H)@/, \"\"); print; }' $(<) > $(@)",
 )
 
 genrule(
-    name = "gflags_completions_h",
+    name = "jflags_completions_h",
     srcs = [
-        "src/gflags_completions.h.in",
+        "src/jflags_completions.h.in",
     ],
     outs = [
-        "gflags_completions.h",
+        "jflags_completions.h",
     ],
-    cmd = "awk '{ gsub(/@GFLAGS_NAMESPACE@/, \"gflags\"); print; }' $(<) > $(@)",
+    cmd = "awk '{ gsub(/@JFLAGS_NAMESPACE@/, \"jflags\"); print; }' $(<) > $(@)",
 )
 
 genrule(
-    name = "gflags_declare_h",
+    name = "jflags_declare_h",
     srcs = [
-        "src/gflags_declare.h.in",
+        "src/jflags_declare.h.in",
     ],
     outs = [
-        "gflags_declare.h",
+        "jflags_declare.h",
     ],
     cmd = ("awk '{ " +
-           "gsub(/@GFLAGS_NAMESPACE@/, \"gflags\"); " +
-           "gsub(/@(HAVE_STDINT_H|HAVE_SYS_TYPES_H|HAVE_INTTYPES_H|GFLAGS_INTTYPES_FORMAT_C99)@/, \"1\"); " +
+           "gsub(/@JFLAGS_NAMESPACE@/, \"jflags\"); " +
+           "gsub(/@(HAVE_STDINT_H|HAVE_SYS_TYPES_H|HAVE_INTTYPES_H|JFLAGS_INTTYPES_FORMAT_C99)@/, \"1\"); " +
            "gsub(/@([A-Z0-9_]+)@/, \"0\"); " +
            "print; }' $(<) > $(@)"),
 )
@@ -94,12 +94,12 @@ genrule(
 genrule(
     name = "includes",
     srcs = [
-        ":gflags_h",
-        ":gflags_declare_h",
+        ":jflags_h",
+        ":jflags_declare_h",
     ],
     outs = [
-        "include/gflags/gflags.h",
-        "include/gflags/gflags_declare.h",
+        "include/jflags/jflags.h",
+        "include/jflags/jflags_declare.h",
     ],
-    cmd = "mkdir -p $(@D)/include/gflags && cp $(SRCS) $(@D)/include/gflags",
+    cmd = "mkdir -p $(@D)/include/jflags && cp $(SRCS) $(@D)/include/jflags",
 )

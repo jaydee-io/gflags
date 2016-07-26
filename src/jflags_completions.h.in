@@ -85,7 +85,7 @@
 // ** How to have bash accept completions from a binary:
 // Bash requires that it be informed about each command that programmatic
 // completion should be enabled for.  Example addition to a .bashrc
-// file would be (your path to gflags_completions.sh file may differ):
+// file would be (your path to jflags_completions.sh file may differ):
 
 /*
 $ complete -o bashdefault -o default -o nospace -C                            \
@@ -109,13 +109,13 @@ $ complete -o bashdefault -o default -o nospace -C                            \
 // produce the expected completion output.
 
 
-#ifndef GFLAGS_COMPLETIONS_H_
-#define GFLAGS_COMPLETIONS_H_
+#ifndef JFLAGS_COMPLETIONS_H_
+#define JFLAGS_COMPLETIONS_H_
 
-namespace @GFLAGS_NAMESPACE@ {
+namespace @JFLAGS_NAMESPACE@ {
 
 extern void HandleCommandLineCompletions(void);
 
 }
 
-#endif  // GFLAGS_COMPLETIONS_H_
+#endif  // JFLAGS_COMPLETIONS_H_

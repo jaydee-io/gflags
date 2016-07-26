@@ -29,9 +29,9 @@
 
 // ---
 //
-// A negative comiple test for gflags.
+// A negative comiple test for jflags.
 
-#include <gflags/gflags.h>
+#include <jflags/jflags.h>
 
 #if defined(TEST_NC_SWAPPED_ARGS)
 

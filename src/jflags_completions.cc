@@ -47,7 +47,7 @@
 //     5b) Trim most flag's descriptions to fit on a single terminal line
 
 
-#include "gflags_completions.h"
+#include "jflags_completions.h"
 
 #include "config.h"
 
@@ -60,7 +60,7 @@
 #include <utility>
 #include <vector>
 
-#include "gflags.h"
+#include "jflags.h"
 #include "util.h"
 
 using std::set;
@@ -76,7 +76,7 @@ DEFINE_int32(tab_completion_columns, 80,
              "Number of columns to use in output for tab completion");
 
 
-namespace GFLAGS_NAMESPACE {
+namespace JFLAGS_NAMESPACE {
 
 
 namespace {
@@ -764,8 +764,8 @@ static string GetLongFlagLine(
 void HandleCommandLineCompletions(void) {
   if (FLAGS_tab_completion_word.empty()) return;
   PrintFlagCompletionInfo();
-  gflags_exitfunc(0);
+  jflags_exitfunc(0);
 }
 
 
-} // namespace GFLAGS_NAMESPACE
+} // namespace JFLAGS_NAMESPACE
