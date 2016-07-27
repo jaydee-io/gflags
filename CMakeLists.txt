@@ -325,7 +325,7 @@ if (JFLAGS_NAMESPACE_SECONDARY)
   foreach (ns IN LISTS JFLAGS_NAMESPACE_SECONDARY)
     string (TOUPPER "${ns}" NS)
     set (jflags_ns_h "${PROJECT_BINARY_DIR}/include/${JFLAGS_INCLUDE_DIR}/jflags_${ns}.h")
-    configure_file ("${PROJECT_SOURCE_DIR}/src/jflags_ns.h.in" "${jflags_ns_h}" @ONLY)
+    configure_file ("${PROJECT_SOURCE_DIR}/include/jflags_ns.h.in" "${jflags_ns_h}" @ONLY)
     list (APPEND PUBLIC_HDRS "${jflags_ns_h}")
     set (INCLUDE_JFLAGS_NS_H "${INCLUDE_JFLAGS_NS_H}\n#include \"jflags_${ns}.h\"")
   endforeach ()
@@ -372,7 +372,7 @@ if (NOT DEFINED JFLAGS_IS_A_DLL)
 endif ()
 
 configure_headers (PUBLIC_HDRS  ${PUBLIC_HDRS})
-configure_sources (PRIVATE_HDRS ${PRIVATE_HDRS})
+configure_headers (PRIVATE_HDRS ${PRIVATE_HDRS})
 configure_sources (JFLAGS_SRCS  ${JFLAGS_SRCS})
 
 # ----------------------------------------------------------------------------
@@ -433,7 +433,7 @@ foreach (TYPE IN ITEMS STATIC SHARED)
         endif ()
         target_include_directories (jflags${opts}_${type}
           PUBLIC  "${include_dirs}"
-          PRIVATE "${PROJECT_SOURCE_DIR}/src;${PROJECT_BINARY_DIR}/include/${JFLAGS_INCLUDE_DIR}"
+          PRIVATE "${PROJECT_SOURCE_DIR}/include;${PROJECT_BINARY_DIR}/include/${JFLAGS_INCLUDE_DIR}"
         )
         if (opts MATCHES "nothreads")
           set (defines "JFLAGS_IS_A_DLL=${JFLAGS_IS_A_DLL};NO_THREADS")
@@ -514,7 +514,7 @@ if (INSTALL_HEADERS)
   )
   install (EXPORT jflags-lib DESTINATION ${CONFIG_INSTALL_DIR} FILE ${PACKAGE_NAME}-targets.cmake)
   if (UNIX)
-    install (PROGRAMS src/jflags_completions.sh DESTINATION ${RUNTIME_INSTALL_DIR})
+    install (PROGRAMS utils/jflags_completions.sh DESTINATION ${RUNTIME_INSTALL_DIR})
   endif ()
 endif ()
 

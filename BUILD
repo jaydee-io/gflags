@@ -7,11 +7,11 @@ licenses(["notice"])
 cc_library(
     name = "jflags",
     srcs = [
-        "src/jflags.cc",
-        "src/jflags_completions.cc",
-        "src/jflags_reporting.cc",
-        "src/mutex.h",
-        "src/util.h",
+        "lib/jflags.cc",
+        "lib/jflags_completions.cc",
+        "lib/jflags_reporting.cc",
+        "include/mutex.h",
+        "include/util.h",
         ":config_h",
         ":jflags_completions_h",
         ":jflags_declare_h",
@@ -46,7 +46,7 @@ cc_library(
 genrule(
     name = "config_h",
     srcs = [
-        "src/config.h.in",
+        "include/config.h.in",
     ],
     outs = [
         "config.h",
@@ -57,7 +57,7 @@ genrule(
 genrule(
     name = "jflags_h",
     srcs = [
-        "src/jflags.h.in",
+        "include/jflags.h.in",
     ],
     outs = [
         "jflags.h",
@@ -68,7 +68,7 @@ genrule(
 genrule(
     name = "jflags_completions_h",
     srcs = [
-        "src/jflags_completions.h.in",
+        "include/jflags_completions.h.in",
     ],
     outs = [
         "jflags_completions.h",
@@ -79,7 +79,7 @@ genrule(
 genrule(
     name = "jflags_declare_h",
     srcs = [
-        "src/jflags_declare.h.in",
+        "include/jflags_declare.h.in",
     ],
     outs = [
         "jflags_declare.h",
