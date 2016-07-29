@@ -31,17 +31,19 @@
 // Imports the jflags library symbols into an alternative/deprecated namespace.
 
 #ifndef JFLAGS_JFLAGS_H_
-#  error The internal header jflags_@ns@.h may only be included by jflags.h
+#error The internal header jflags_@ns@.h may only be included by jflags.h
 #endif
 
+// clang-format off
 #ifndef JFLAGS_NS_@NS@_H_
 #define JFLAGS_NS_@NS@_H_
+// clang-format on
 
-
+// clang-format off
 namespace @ns@ {
 
-
 using JFLAGS_NAMESPACE::int32;
+// clang-format on
 using JFLAGS_NAMESPACE::uint32;
 using JFLAGS_NAMESPACE::int64;
 using JFLAGS_NAMESPACE::uint64;
@@ -95,8 +97,6 @@ using JFLAGS_NAMESPACE::FlagRegisterer;
 using JFLAGS_NAMESPACE::ParseCommandLineFlags;
 #endif
 
-
 } // namespace @ns@
 
-
-#endif  // JFLAGS_NS_@NS@_H_
+#endif // JFLAGS_NS_@NS@_H_

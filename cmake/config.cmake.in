@@ -2,9 +2,9 @@
 
 # library version information
 set (@PACKAGE_PREFIX@_VERSION_STRING "@PACKAGE_VERSION@")
-set (@PACKAGE_PREFIX@_VERSION_MAJOR  @PACKAGE_VERSION_MAJOR@)
-set (@PACKAGE_PREFIX@_VERSION_MINOR  @PACKAGE_VERSION_MINOR@)
-set (@PACKAGE_PREFIX@_VERSION_PATCH  @PACKAGE_VERSION_PATCH@)
+set (@PACKAGE_PREFIX@_VERSION_MAJOR @PACKAGE_VERSION_MAJOR@)
+set (@PACKAGE_PREFIX@_VERSION_MINOR @PACKAGE_VERSION_MINOR@)
+set (@PACKAGE_PREFIX@_VERSION_PATCH @PACKAGE_VERSION_PATCH@)
 
 # import targets
 include ("${CMAKE_CURRENT_LIST_DIR}/@PACKAGE_NAME@-targets.cmake")
@@ -21,17 +21,17 @@ get_filename_component (_INSTALL_PREFIX "${CMAKE_CURRENT_LIST_DIR}/@INSTALL_PREF
 set (@PACKAGE_PREFIX@_INCLUDE_DIR "${_INSTALL_PREFIX}/@INCLUDE_INSTALL_DIR@")
 
 if (@PACKAGE_NAME@_FIND_COMPONENTS)
-  foreach (@PACKAGE_NAME@_FIND_COMPONENT IN LISTS @PACKAGE_NAME@_FIND_COMPONENTS)
-    if (@PACKAGE_NAME@_FIND_REQUIRED_${@PACKAGE_NAME@_FIND_COMPONENT} AND NOT TARGET @PACKAGE_NAME@_${@PACKAGE_NAME@_FIND_COMPONENT})
+  foreach (@PACKAGE_NAME@_FIND_COMPONENT IN LISTS@PACKAGE_NAME@_FIND_COMPONENTS)
+    if (@PACKAGE_NAME@_FIND_REQUIRED_${@PACKAGE_NAME@_FIND_COMPONENT} AND NOT TARGET@PACKAGE_NAME@_${@PACKAGE_NAME@_FIND_COMPONENT})
       message (FATAL_ERROR "Package @PACKAGE_NAME@ was installed without required component ${@PACKAGE_NAME@_FIND_COMPONENT}!")
     endif ()
   endforeach ()
-  list (GET @PACKAGE_NAME@_FIND_COMPONENTS 0 @PACKAGE_NAME@_FIND_COMPONENT)
+  list (GET @PACKAGE_NAME@_FIND_COMPONENTS 0@PACKAGE_NAME@_FIND_COMPONENT)
 else ()
   set (@PACKAGE_NAME@_FIND_COMPONENT)
 endif ()
 
-# default settings of @PACKAGE_PREFIX@_SHARED and @PACKAGE_PREFIX@_NOTHREADS
+# default settings of @PACKAGE_PREFIX@_SHARED and@PACKAGE_PREFIX@_NOTHREADS
 #
 # It is recommended to use either one of the following find_package commands
 # instead of setting the @PACKAGE_PREFIX@_(SHARED|NOTHREADS) variables:
@@ -49,7 +49,7 @@ if (NOT DEFINED @PACKAGE_PREFIX@_SHARED)
     else ()
       set (@PACKAGE_PREFIX@_SHARED FALSE)
     endif ()
-  elseif (TARGET @PACKAGE_NAME@_shared OR TARGET @PACKAGE_NAME@_nothreads_shared)
+  elseif (TARGET @PACKAGE_NAME@_shared OR TARGET@PACKAGE_NAME@_nothreads_shared)
     set (@PACKAGE_PREFIX@_SHARED TRUE)
   else ()
     set (@PACKAGE_PREFIX@_SHARED FALSE)
@@ -64,7 +64,7 @@ if (NOT DEFINED @PACKAGE_PREFIX@_NOTHREADS)
     else ()
       set (@PACKAGE_PREFIX@_NOTHREADS FALSE)
     endif ()
-  elseif (TARGET @PACKAGE_NAME@_static OR TARGET @PACKAGE_NAME@_shared)
+  elseif (TARGET @PACKAGE_NAME@_static OR TARGET@PACKAGE_NAME@_shared)
     set (@PACKAGE_PREFIX@_NOTHREADS FALSE)
   else ()
     set (@PACKAGE_PREFIX@_NOTHREADS TRUE)
@@ -77,21 +77,21 @@ if (NOT @PACKAGE_PREFIX@_TARGET)
     set (@PACKAGE_PREFIX@_TARGET ${@PACKAGE_NAME@_TARGET})
   elseif (@PACKAGE_PREFIX@_SHARED)
     if (@PACKAGE_PREFIX@_NOTHREADS)
-      set (@PACKAGE_PREFIX@_TARGET @PACKAGE_NAME@_nothreads_shared)
+      set (@PACKAGE_PREFIX@_TARGET@PACKAGE_NAME@_nothreads_shared)
     else ()
-      set (@PACKAGE_PREFIX@_TARGET @PACKAGE_NAME@_shared)
+      set (@PACKAGE_PREFIX@_TARGET@PACKAGE_NAME@_shared)
     endif ()
   else ()
     if (@PACKAGE_PREFIX@_NOTHREADS)
-      set (@PACKAGE_PREFIX@_TARGET @PACKAGE_NAME@_nothreads_static)
+      set (@PACKAGE_PREFIX@_TARGET@PACKAGE_NAME@_nothreads_static)
     else ()
-      set (@PACKAGE_PREFIX@_TARGET @PACKAGE_NAME@_static)
+      set (@PACKAGE_PREFIX@_TARGET@PACKAGE_NAME@_static)
     endif ()
   endif ()
 endif ()
 if (NOT TARGET ${@PACKAGE_PREFIX@_TARGET})
   message (FATAL_ERROR "Your @PACKAGE_NAME@ installation does not contain a ${@PACKAGE_PREFIX@_TARGET} library target!"
-                       " Try a different combination of @PACKAGE_PREFIX@_SHARED and @PACKAGE_PREFIX@_NOTHREADS.")
+                       " Try a different combination of @PACKAGE_PREFIX@_SHARED and@PACKAGE_PREFIX@_NOTHREADS.")
 endif ()
 
 # add more convenient "@PACKAGE_NAME@" import target

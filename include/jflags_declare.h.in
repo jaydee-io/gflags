@@ -37,7 +37,6 @@
 #ifndef JFLAGS_DECLARE_H_
 #define JFLAGS_DECLARE_H_
 
-
 // ---------------------------------------------------------------------------
 // Namespace of jflags library symbols.
 #define JFLAGS_NAMESPACE @JFLAGS_NAMESPACE@
@@ -47,56 +46,55 @@
 
 // We always want to import the symbols of the jflags library
 #ifndef JFLAGS_DLL_DECL
-#  if @JFLAGS_IS_A_DLL@ && defined(_MSC_VER)
-#    define JFLAGS_DLL_DECL __declspec(dllimport)
-#  else
-#    define JFLAGS_DLL_DECL
-#  endif
+#if @JFLAGS_IS_A_DLL@ && defined(_MSC_VER)
+#define JFLAGS_DLL_DECL __declspec(dllimport)
+#else
+#define JFLAGS_DLL_DECL
+#endif
 #endif
 
 // We always want to import variables declared in user code
 #ifndef JFLAGS_DLL_DECLARE_FLAG
-#  ifdef _MSC_VER
-#    define JFLAGS_DLL_DECLARE_FLAG __declspec(dllimport)
-#  else
-#    define JFLAGS_DLL_DECLARE_FLAG
-#  endif
+#ifdef _MSC_VER
+#define JFLAGS_DLL_DECLARE_FLAG __declspec(dllimport)
+#else
+#define JFLAGS_DLL_DECLARE_FLAG
+#endif
 #endif
 
 // ---------------------------------------------------------------------------
 // Flag types
 #include <string>
 #if @HAVE_STDINT_H@
-#  include <stdint.h>                   // the normal place uint32_t is defined
+#include <stdint.h> // the normal place uint32_t is defined
 #elif @HAVE_SYS_TYPES_H@
-#  include <sys/types.h>                // the normal place u_int32_t is defined
+#include <sys/types.h> // the normal place u_int32_t is defined
 #elif @HAVE_INTTYPES_H@
-#  include <inttypes.h>                 // a third place for uint32_t or u_int32_t
+#include <inttypes.h> // a third place for uint32_t or u_int32_t
 #endif
 
 namespace JFLAGS_NAMESPACE {
 
 #if @JFLAGS_INTTYPES_FORMAT_C99@ // C99
-typedef int32_t          int32;
-typedef uint32_t         uint32;
-typedef int64_t          int64;
-typedef uint64_t         uint64;
+typedef int32_t int32;
+typedef uint32_t uint32;
+typedef int64_t int64;
+typedef uint64_t uint64;
 #elif @JFLAGS_INTTYPES_FORMAT_BSD@ // BSD
-typedef int32_t          int32;
-typedef u_int32_t        uint32;
-typedef int64_t          int64;
-typedef u_int64_t        uint64;
+typedef int32_t int32;
+typedef u_int32_t uint32;
+typedef int64_t int64;
+typedef u_int64_t uint64;
 #elif @JFLAGS_INTTYPES_FORMAT_VC7@ // Windows
-typedef __int32          int32;
+typedef __int32 int32;
 typedef unsigned __int32 uint32;
-typedef __int64          int64;
+typedef __int64 int64;
 typedef unsigned __int64 uint64;
 #else
-#  error Do not know how to define a 32-bit integer quantity on your system
+#error Do not know how to define a 32-bit integer quantity on your system
 #endif
 
 } // namespace JFLAGS_NAMESPACE
-
 
 namespace fLS {
 
@@ -108,37 +106,35 @@ typedef std::string clstring;
 
 } // namespace fLS
 
+#define DECLARE_VARIABLE(type, shorttype, name)                  \
+    /* We always want to import declared variables, dll or no */ \
+    namespace fL##shorttype                                      \
+    {                                                            \
+        extern JFLAGS_DLL_DECLARE_FLAG type FLAGS_##name;        \
+    }                                                            \
+    using fL##shorttype::FLAGS_##name
 
-#define DECLARE_VARIABLE(type, shorttype, name) \
-  /* We always want to import declared variables, dll or no */ \
-  namespace fL##shorttype { extern JFLAGS_DLL_DECLARE_FLAG type FLAGS_##name; } \
-  using fL##shorttype::FLAGS_##name
+#define DECLARE_bool(name) DECLARE_VARIABLE(bool, B, name)
 
-#define DECLARE_bool(name) \
-  DECLARE_VARIABLE(bool, B, name)
-
-#define DECLARE_int32(name) \
-  DECLARE_VARIABLE(::JFLAGS_NAMESPACE::int32, I, name)
+#define DECLARE_int32(name) DECLARE_VARIABLE(::JFLAGS_NAMESPACE::int32, I, name)
 
 #define DECLARE_uint32(name) \
-  DECLARE_VARIABLE(::JFLAGS_NAMESPACE::uint32, U, name)
+    DECLARE_VARIABLE(::JFLAGS_NAMESPACE::uint32, U, name)
 
 #define DECLARE_int64(name) \
-  DECLARE_VARIABLE(::JFLAGS_NAMESPACE::int64, I64, name)
+    DECLARE_VARIABLE(::JFLAGS_NAMESPACE::int64, I64, name)
 
 #define DECLARE_uint64(name) \
-  DECLARE_VARIABLE(::JFLAGS_NAMESPACE::uint64, U64, name)
+    DECLARE_VARIABLE(::JFLAGS_NAMESPACE::uint64, U64, name)
 
-#define DECLARE_double(name) \
-  DECLARE_VARIABLE(double, D, name)
+#define DECLARE_double(name) DECLARE_VARIABLE(double, D, name)
 
-#define DECLARE_string(name) \
-  /* We always want to import declared variables, dll or no */ \
-  namespace fLS { \
-  using ::fLS::clstring; \
-  extern JFLAGS_DLL_DECLARE_FLAG ::fLS::clstring& FLAGS_##name; \
-  } \
-  using fLS::FLAGS_##name
+#define DECLARE_string(name)                                      \
+    /* We always want to import declared variables, dll or no */  \
+    namespace fLS {                                               \
+    using ::fLS::clstring;                                        \
+    extern JFLAGS_DLL_DECLARE_FLAG::fLS::clstring & FLAGS_##name; \
+    }                                                             \
+    using fLS::FLAGS_##name
 
-
-#endif  // JFLAGS_DECLARE_H_
+#endif // JFLAGS_DECLARE_H_

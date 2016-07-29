@@ -108,14 +108,15 @@ $ complete -o bashdefault -o default -o nospace -C                            \
 // Assuming that "binary" is a newly compiled binary, this should still
 // produce the expected completion output.
 
-
 #ifndef JFLAGS_COMPLETIONS_H_
 #define JFLAGS_COMPLETIONS_H_
 
+// clang-format off
 namespace @JFLAGS_NAMESPACE@ {
+// clang-format on
 
 extern void HandleCommandLineCompletions(void);
 
 }
 
-#endif  // JFLAGS_COMPLETIONS_H_
+#endif // JFLAGS_COMPLETIONS_H_
