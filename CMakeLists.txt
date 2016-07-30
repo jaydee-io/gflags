@@ -390,6 +390,7 @@ if (OS_WINDOWS)
   set (LIBRARY_INSTALL_DIR Lib)
   set (INCLUDE_INSTALL_DIR Include)
   set (CONFIG_INSTALL_DIR  CMake)
+  set (DOC_INSTALL_DIR     "Usr\\Share\\Doc\\jflags")
 else ()
   set (RUNTIME_INSTALL_DIR bin)
   # The LIB_INSTALL_DIR and LIB_SUFFIX variables are used by the Fedora
@@ -402,6 +403,7 @@ else ()
   jflags_property (LIBRARY_INSTALL_DIR ADVANCED TRUE)
   set (INCLUDE_INSTALL_DIR include)
   set (CONFIG_INSTALL_DIR  ${LIBRARY_INSTALL_DIR}/cmake/${PACKAGE_NAME})
+  set (DOC_INSTALL_DIR     "usr/share/doc/jflags")
 endif ()
 
 # ----------------------------------------------------------------------------
@@ -517,6 +519,8 @@ if (INSTALL_HEADERS)
     install (PROGRAMS utils/jflags_completions.sh DESTINATION ${RUNTIME_INSTALL_DIR})
   endif ()
 endif ()
+
+install (FILES COPYING.txt RENAME LICENSE DESTINATION ${DOC_INSTALL_DIR})
 
 # ----------------------------------------------------------------------------
 # support direct use of build tree
