@@ -343,6 +343,7 @@ set (JFLAGS_SRCS
   "jflags.cc"
   "jflags_validator.cc"
   "jflags_infos.cc"
+  "jflags_access.cc"
   "jflags_reporting.cc"
   "jflags_completions.cc"
 )
