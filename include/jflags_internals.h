@@ -278,6 +278,41 @@ private:
 };
 
 // --------------------------------------------------------------------
+// FlagSaverImpl
+//    This class stores the states of all flags at construct time,
+//    and restores all flags to that state at destruct time.
+//    Its major implementation challenge is that it never modifies
+//    pointers in the 'main' registry, so global FLAG_* vars always
+//    point to the right place.
+// --------------------------------------------------------------------
+
+class FlagSaverImpl
+{
+public:
+    // Constructs an empty FlagSaverImpl object.
+    explicit FlagSaverImpl(FlagRegistry * main_registry);
+    ~FlagSaverImpl();
+
+    // Saves the flag states from the flag registry into this object.
+    // It's an error to call this more than once.
+    // Must be called when the registry mutex is not held.
+    void SaveFromRegistry();
+
+    // Restores the saved flag states into the flag registry.  We
+    // assume no flags were added or deleted from the registry since
+    // the SaveFromRegistry; if they were, that's trouble!  Must be
+    // called when the registry mutex is not held.
+    void RestoreToRegistry();
+
+private:
+    FlagRegistry * const main_registry_;
+    vector<CommandLineFlag *> backup_registry_;
+
+    FlagSaverImpl(const FlagSaverImpl &); // no copying!
+    void operator=(const FlagSaverImpl &);
+};
+
+// --------------------------------------------------------------------
 // CommandLineFlagParser
 //    Parsing is done in two stages.  In the first, we go through
 //    argv.  For every flag-like arg we can make sense of, we parse

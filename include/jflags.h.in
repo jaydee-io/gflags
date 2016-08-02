@@ -62,6 +62,7 @@
 #include "jflags_validator.h"
 #include "jflags_infos.h"
 #include "jflags_access.h"
+#include "FlagSaver.h"
 
 // We always want to export variables defined in user code
 #ifndef JFLAGS_DLL_DEFINE_FLAG
@@ -73,47 +74,6 @@
 #endif
 
 namespace JFLAGS_NAMESPACE {
-
-// --------------------------------------------------------------------
-// Saves the states (value, default value, whether the user has set
-// the flag, registered validators, etc) of all flags, and restores
-// them when the FlagSaver is destroyed.  This is very useful in
-// tests, say, when you want to let your tests change the flags, but
-// make sure that they get reverted to the original states when your
-// test is complete.
-//
-// Example usage:
-//   void TestFoo() {
-//     FlagSaver s1;
-//     FLAG_foo = false;
-//     FLAG_bar = "some value";
-//
-//     // test happens here.  You can return at any time
-//     // without worrying about restoring the FLAG values.
-//   }
-//
-// Note: This class is marked with JFLAGS_ATTRIBUTE_UNUSED because all
-// the work is done in the constructor and destructor, so in the standard
-// usage example above, the compiler would complain that it's an
-// unused variable.
-//
-// This class is thread-safe.  However, its destructor writes to
-// exactly the set of flags that have changed value during its
-// lifetime, so concurrent _direct_ access to those flags
-// (i.e. FLAGS_foo instead of {Get,Set}CommandLineOption()) is unsafe.
-
-class JFLAGS_DLL_DECL FlagSaver
-{
-public:
-    FlagSaver();
-    ~FlagSaver();
-
-private:
-    class FlagSaverImpl * impl_; // we use pimpl here to keep API steady
-
-    FlagSaver(const FlagSaver &); // no copying!
-    void operator=(const FlagSaver &);
-} @JFLAGS_ATTRIBUTE_UNUSED@;
 
 // --------------------------------------------------------------------
 // Some deprecated or hopefully-soon-to-be-deprecated functions.

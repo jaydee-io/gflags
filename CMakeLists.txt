@@ -316,8 +316,12 @@ endif ()
 # source files - excluding root subdirectory and/or .in suffix
 set (PUBLIC_HDRS
   "jflags.h"
+  "jflags_validator.h"
+  "jflags_infos.h"
+  "jflags_access.h"
   "jflags_declare.h"
   "jflags_completions.h"
+  "FlagSaver.h"
 )
 
 if (JFLAGS_NAMESPACE_SECONDARY)
@@ -346,6 +350,7 @@ set (JFLAGS_SRCS
   "jflags_access.cc"
   "jflags_reporting.cc"
   "jflags_completions.cc"
+  "FlagSaver.cc"
 )
 
 if (OS_WINDOWS)
