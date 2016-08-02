@@ -324,6 +324,7 @@ set (PUBLIC_HDRS
   "jflags_deprecated.h"
   "jflags_env.h"
   "jflags_parser.h"
+  "jflags_define.h"
   "FlagSaver.h"
   "FlagRegisterer.h"
 )
