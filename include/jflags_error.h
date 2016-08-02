@@ -14,6 +14,8 @@ namespace JFLAGS_NAMESPACE {
 // This is used by the unittest to test error-exit code
 extern void JFLAGS_DLL_DECL (*jflags_exitfunc)(int);
 
+extern const char kError[];
+
 // Whether we should die when reporting an error.
 enum DieWhenReporting
 {

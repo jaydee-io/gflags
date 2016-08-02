@@ -14,6 +14,8 @@ namespace JFLAGS_NAMESPACE {
 // This is used by the unittest to test error-exit code
 void JFLAGS_DLL_DECL (*jflags_exitfunc)(int) = &exit; // from stdlib.h
 
+const char kError[] = "ERROR: ";
+
 // Report Error and exit if requested.
 void ReportError(DieWhenReporting should_die, const char * format, ...)
 {
