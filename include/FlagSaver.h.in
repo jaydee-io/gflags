@@ -53,5 +53,5 @@ private:
 
 } // namespace JFLAGS_NAMESPACE
 
-#endif // JFLAGS_INFOS_H_
+#endif // JFLAGS_FLAG_SAVER_H_
 

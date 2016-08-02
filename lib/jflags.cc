@@ -1055,17 +1055,4 @@ string CommandLineFlagParser::ProcessOptionsFromStringLocked(const string & cont
 
 // Now define the functions that are exported via the .h file
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4996) // ignore getenv security warning
-#endif
-const char * StringFromEnv(const char * varname, const char * dflt)
-{
-    const char * const val = getenv(varname);
-    return val ? val : dflt;
-}
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
-
 } // namespace JFLAGS_NAMESPACE

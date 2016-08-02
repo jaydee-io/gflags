@@ -26,5 +26,5 @@ void ReportError(DieWhenReporting should_die, const char * format, ...);
 
 } // namespace JFLAGS_NAMESPACE
 
-#endif // JFLAGS_INFOS_H_
+#endif // JFLAGS_ERROR_H_
 

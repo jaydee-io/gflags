@@ -70,5 +70,18 @@ double DoubleFromEnv(const char * v, double dflt)
     return GetFromEnv(v, "double", dflt);
 }
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4996) // ignore getenv security warning
+#endif
+const char * StringFromEnv(const char * varname, const char * dflt)
+{
+    const char * const val = getenv(varname);
+    return val ? val : dflt;
+}
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+
 } // namespace JFLAGS_NAMESPACE
 

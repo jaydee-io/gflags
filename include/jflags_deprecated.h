@@ -25,5 +25,5 @@ extern JFLAGS_DLL_DECL bool ReadFromFlagsFile(const std::string & filename, cons
 
 } // namespace JFLAGS_NAMESPACE
 
-#endif // JFLAGS_INFOS_H_
+#endif // JFLAGS_DEPRECATED_H_
 
