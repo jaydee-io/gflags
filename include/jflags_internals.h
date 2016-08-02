@@ -43,6 +43,8 @@ using std::vector;
 
 string ReadFileIntoString(const char * filename);
 
+extern bool allow_command_line_reparsing;
+
 // This is a 'prototype' validate-function.  'Real' validate
 // functions, take a flag-value as an argument: ValidateFn(bool) or
 // ValidateFn(uint64).  However, for easier storage, we strip off this
