@@ -8,6 +8,7 @@
 #define JFLAGS_INTERNALS_H_
 
 #include "jflags.h"
+#include "jflags_error.h"
 #include "config.h"
 
 #include <assert.h>
@@ -18,8 +19,6 @@
 #elif defined(HAVE_SHLWAPI_H)
 #include <shlwapi.h>
 #endif
-#include <stdarg.h> // For va_list and related operations
-#include <stdio.h>
 #include <string.h>
 
 #include <algorithm>
@@ -51,16 +50,6 @@ extern bool allow_command_line_reparsing;
 // argument and then restore it when actually calling the function on
 // a flag value.
 typedef bool (*ValidateFnProto)();
-
-// Whether we should die when reporting an error.
-enum DieWhenReporting
-{
-    DIE,
-    DO_NOT_DIE
-};
-
-// Report Error and exit if requested.
-void ReportError(DieWhenReporting should_die, const char * format, ...);
 
 // This could be a templated method of FlagValue, but doing so adds to the
 // size of the .o.  Since there's no type-safety here anyway, macro is ok.

@@ -356,6 +356,7 @@ set (JFLAGS_SRCS
   "jflags_deprecated.cc"
   "jflags_env.cc"
   "jflags_parser.cc"
+  "jflags_error.cc"
   "FlagSaver.cc"
 )
 

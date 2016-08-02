@@ -86,9 +86,6 @@ using std::sort;
 using std::string;
 using std::vector;
 
-// This is used by the unittest to test error-exit code
-void JFLAGS_DLL_DECL (*jflags_exitfunc)(int) = &exit; // from stdlib.h
-
 // The help message indicating that the commandline flag has been
 // 'stripped'. It will not show up when doing "-help" and its
 // variants. The flag is stripped if STRIP_FLAG_HELP is set to 1
@@ -102,20 +99,6 @@ const char kStrippedFlagHelp[] = "\001\002\003\004 (unknown) \004\003\002\001";
 static const char kError[] = "ERROR: ";
 
 static bool logging_is_probably_set_up = false;
-
-// Report Error and exit if requested.
-void ReportError(DieWhenReporting should_die, const char * format, ...)
-{
-    char error_message[255];
-    va_list ap;
-    va_start(ap, format);
-    vsnprintf(error_message, sizeof(error_message), format, ap);
-    va_end(ap);
-    fprintf(stderr, "%s", error_message);
-    fflush(stderr); // should be unnecessary, but cygwin's rxvt buffers stderr
-    if (should_die == DIE)
-        jflags_exitfunc(1);
-}
 
 // --------------------------------------------------------------------
 // FlagValue
