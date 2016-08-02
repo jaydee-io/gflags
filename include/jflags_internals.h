@@ -57,6 +57,15 @@ enum DieWhenReporting
     DO_NOT_DIE
 };
 
+// Report Error and exit if requested.
+void ReportError(DieWhenReporting should_die, const char * format, ...);
+
+// This could be a templated method of FlagValue, but doing so adds to the
+// size of the .o.  Since there's no type-safety here anyway, macro is ok.
+#define VALUE_AS(type) *reinterpret_cast<type *>(value_buffer_)
+#define OTHER_VALUE_AS(fv, type) *reinterpret_cast<type *>(fv.value_buffer_)
+#define SET_VALUE_AS(type, value) VALUE_AS(type) = (value)
+
 // --------------------------------------------------------------------
 // FlagValue
 //    This represent the value a single flag might have.  The major

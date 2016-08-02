@@ -109,7 +109,7 @@ static bool allow_command_line_reparsing = false;
 static bool logging_is_probably_set_up = false;
 
 // Report Error and exit if requested.
-static void ReportError(DieWhenReporting should_die, const char * format, ...)
+void ReportError(DieWhenReporting should_die, const char * format, ...)
 {
     char error_message[255];
     va_list ap;
@@ -128,12 +128,6 @@ static void ReportError(DieWhenReporting should_die, const char * format, ...)
 //    functionality is to convert from a string to an object of a
 //    given type, and back.  Thread-compatible.
 // --------------------------------------------------------------------
-
-// This could be a templated method of FlagValue, but doing so adds to the
-// size of the .o.  Since there's no type-safety here anyway, macro is ok.
-#define VALUE_AS(type) *reinterpret_cast<type *>(value_buffer_)
-#define OTHER_VALUE_AS(fv, type) *reinterpret_cast<type *>(fv.value_buffer_)
-#define SET_VALUE_AS(type, value) VALUE_AS(type) = (value)
 
 FlagValue::FlagValue(void * valbuf, const char * type, bool transfer_ownership_of_value)
 : value_buffer_(valbuf), owns_value_(transfer_ownership_of_value)
@@ -1081,28 +1075,6 @@ string CommandLineFlagParser::ProcessOptionsFromStringLocked(const string & cont
     return retval;
 }
 
-// --------------------------------------------------------------------
-// GetFromEnv()
-//    These is helper function for routines like BoolFromEnv()
-//    defined below.  They're defined here so they can live in the 
-//    unnamed namespace (which makes friendship declarations for these
-//    classes possible).
-// --------------------------------------------------------------------
-
-template <typename T>
-T GetFromEnv(const char * varname, const char * type, T dflt)
-{
-    std::string valstr;
-    if (SafeGetEnv(varname, valstr)) {
-        FlagValue ifv(new T, type, true);
-        if (!ifv.ParseFrom(valstr.c_str()))
-            ReportError(DIE, "ERROR: error parsing env variable '%s' with value '%s'\n", varname, valstr.c_str());
-        return OTHER_VALUE_AS(ifv, T);
-    }
-    else
-        return dflt;
-}
-
 // Now define the functions that are exported via the .h file
 
 // --------------------------------------------------------------------
@@ -1129,45 +1101,6 @@ FlagRegisterer::FlagRegisterer(const char * name, const char * type, const char 
     // Importantly, flag_ will never be deleted, so storage is always good.
     CommandLineFlag * flag = new CommandLineFlag(name, help, filename, current, defvalue);
     FlagRegistry::GlobalRegistry()->RegisterFlag(flag); // default registry
-}
-
-// --------------------------------------------------------------------
-// BoolFromEnv()
-// Int32FromEnv()
-// Uint32FromEnv()
-// Int64FromEnv()
-// Uint64FromEnv()
-// DoubleFromEnv()
-// StringFromEnv()
-//    Reads the value from the environment and returns it.
-//    We use an FlagValue to make the parsing easy.
-//    Example usage:
-//       DEFINE_bool(myflag, BoolFromEnv("MYFLAG_DEFAULT", false), "whatever");
-// --------------------------------------------------------------------
-
-bool BoolFromEnv(const char * v, bool dflt)
-{
-    return GetFromEnv(v, "bool", dflt);
-}
-int32 Int32FromEnv(const char * v, int32 dflt)
-{
-    return GetFromEnv(v, "int32", dflt);
-}
-uint32 Uint32FromEnv(const char * v, uint32 dflt)
-{
-    return GetFromEnv(v, "uint32", dflt);
-}
-int64 Int64FromEnv(const char * v, int64 dflt)
-{
-    return GetFromEnv(v, "int64", dflt);
-}
-uint64 Uint64FromEnv(const char * v, uint64 dflt)
-{
-    return GetFromEnv(v, "uint64", dflt);
-}
-double DoubleFromEnv(const char * v, double dflt)
-{
-    return GetFromEnv(v, "double", dflt);
 }
 
 #ifdef _MSC_VER

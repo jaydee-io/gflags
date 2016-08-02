@@ -322,6 +322,7 @@ set (PUBLIC_HDRS
   "jflags_declare.h"
   "jflags_completions.h"
   "jflags_deprecated.h"
+  "jflags_env.h"
   "FlagSaver.h"
 )
 
@@ -352,6 +353,7 @@ set (JFLAGS_SRCS
   "jflags_reporting.cc"
   "jflags_completions.cc"
   "jflags_deprecated.cc"
+  "jflags_env.cc"
   "FlagSaver.cc"
 )
 
