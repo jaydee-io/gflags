@@ -325,6 +325,7 @@ set (PUBLIC_HDRS
   "jflags_env.h"
   "jflags_parser.h"
   "FlagSaver.h"
+  "FlagRegisterer.h"
 )
 
 if (JFLAGS_NAMESPACE_SECONDARY)
@@ -358,6 +359,7 @@ set (JFLAGS_SRCS
   "jflags_parser.cc"
   "jflags_error.cc"
   "FlagSaver.cc"
+  "FlagRegisterer.cc"
 )
 
 if (OS_WINDOWS)

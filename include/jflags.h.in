@@ -66,6 +66,7 @@
 #include "jflags_env.h"
 #include "jflags_parser.h"
 #include "FlagSaver.h"
+#include "FlagRegisterer.h"
 
 // We always want to export variables defined in user code
 #ifndef JFLAGS_DLL_DEFINE_FLAG
@@ -115,12 +116,6 @@ namespace JFLAGS_NAMESPACE {
 // We also put the type of the variable in the namespace, so that
 // people can't DECLARE_int32 something that they DEFINE_bool'd
 // elsewhere.
-
-class JFLAGS_DLL_DECL FlagRegisterer
-{
-public:
-    FlagRegisterer(const char * name, const char * type, const char * help, const char * filename, void * current_storage, void * defvalue_storage);
-};
 
 // If your application #defines STRIP_FLAG_HELP to a non-zero value
 // before #including this file, we remove the help message from the
