@@ -62,6 +62,7 @@
 #include "jflags_validator.h"
 #include "jflags_infos.h"
 #include "jflags_access.h"
+#include "jflags_deprecated.h"
 #include "FlagSaver.h"
 
 // We always want to export variables defined in user code
@@ -74,19 +75,6 @@
 #endif
 
 namespace JFLAGS_NAMESPACE {
-
-// --------------------------------------------------------------------
-// Some deprecated or hopefully-soon-to-be-deprecated functions.
-
-// This is often used for logging.  TODO(csilvers): figure out a better way
-extern JFLAGS_DLL_DECL std::string CommandlineFlagsIntoString();
-// Usually where this is used, a FlagSaver should be used instead.
-extern JFLAGS_DLL_DECL bool ReadFlagsFromString(const std::string & flagfilecontents, const char * prog_name, bool errors_are_fatal); // uses SET_FLAGS_VALUE
-
-// These let you manually implement --flagfile functionality.
-// DEPRECATED.
-extern JFLAGS_DLL_DECL bool AppendFlagsIntoFile(const std::string & filename, const char * prog_name);
-extern JFLAGS_DLL_DECL bool ReadFromFlagsFile(const std::string & filename, const char * prog_name, bool errors_are_fatal); // uses SET_FLAGS_VALUE
 
 // --------------------------------------------------------------------
 // Useful routines for initializing flags from the environment.
