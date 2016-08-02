@@ -9,6 +9,10 @@
 
 namespace JFLAGS_NAMESPACE {
 
+// This could be a templated method of FlagValue, but doing so adds to the
+// size of the .o.  Since there's no type-safety here anyway, macro is ok.
+#define OTHER_VALUE_AS(fv, type) *reinterpret_cast<type *>(fv.value_buffer_)
+
 // --------------------------------------------------------------------
 // GetFromEnv()
 //    These is helper function for routines like BoolFromEnv()

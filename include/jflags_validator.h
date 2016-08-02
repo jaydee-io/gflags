@@ -13,6 +13,13 @@
 
 namespace JFLAGS_NAMESPACE {
 
+// This is a 'prototype' validate-function.  'Real' validate
+// functions, take a flag-value as an argument: ValidateFn(bool) or
+// ValidateFn(uint64).  However, for easier storage, we strip off this
+// argument and then restore it when actually calling the function on
+// a flag value.
+typedef bool (*ValidateFnProto)();
+
 // --------------------------------------------------------------------
 // To actually define a flag in a file, use DEFINE_bool,
 // DEFINE_string, etc. at the bottom of this file.  You may also find

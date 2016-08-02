@@ -361,6 +361,7 @@ set (JFLAGS_SRCS
   "jflags_error.cc"
   "FlagSaver.cc"
   "FlagRegisterer.cc"
+  "FlagValue.cc"
 )
 
 if (OS_WINDOWS)

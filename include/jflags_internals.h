@@ -11,9 +11,7 @@
 #include "jflags_error.h"
 #include "config.h"
 
-#include <assert.h>
 #include <ctype.h>
-#include <errno.h>
 #if defined(HAVE_FNMATCH_H)
 #include <fnmatch.h>
 #elif defined(HAVE_SHLWAPI_H)
@@ -23,12 +21,12 @@
 
 #include <algorithm>
 #include <map>
-#include <string>
 #include <utility> // for pair<>
 #include <vector>
 
 #include "mutex.h"
-#include "util.h"
+
+#include "FlagValue.h"
 
 using namespace MUTEX_NAMESPACE;
 
@@ -37,81 +35,11 @@ namespace JFLAGS_NAMESPACE {
 using std::map;
 using std::pair;
 using std::sort;
-using std::string;
 using std::vector;
 
 string ReadFileIntoString(const char * filename);
 
 extern bool allow_command_line_reparsing;
-
-// This is a 'prototype' validate-function.  'Real' validate
-// functions, take a flag-value as an argument: ValidateFn(bool) or
-// ValidateFn(uint64).  However, for easier storage, we strip off this
-// argument and then restore it when actually calling the function on
-// a flag value.
-typedef bool (*ValidateFnProto)();
-
-// This could be a templated method of FlagValue, but doing so adds to the
-// size of the .o.  Since there's no type-safety here anyway, macro is ok.
-#define VALUE_AS(type) *reinterpret_cast<type *>(value_buffer_)
-#define OTHER_VALUE_AS(fv, type) *reinterpret_cast<type *>(fv.value_buffer_)
-#define SET_VALUE_AS(type, value) VALUE_AS(type) = (value)
-
-// --------------------------------------------------------------------
-// FlagValue
-//    This represent the value a single flag might have.  The major
-//    functionality is to convert from a string to an object of a
-//    given type, and back.  Thread-compatible.
-// --------------------------------------------------------------------
-
-class CommandLineFlag;
-class FlagValue
-{
-public:
-    FlagValue(void * valbuf, const char * type, bool transfer_ownership_of_value);
-    ~FlagValue();
-
-    bool ParseFrom(const char * spec);
-    string ToString() const;
-
-private:
-    friend class CommandLineFlag;                 // for many things, including Validate()
-    friend class JFLAGS_NAMESPACE::FlagSaverImpl; // calls New()
-    friend class FlagRegistry;                    // checks value_buffer_ for flags_by_ptr_ map
-    template <typename T>
-    friend T GetFromEnv(const char *, const char *, T);
-    friend bool TryParseLocked(const CommandLineFlag *, FlagValue *, const char *, string *); // for New(), CopyFrom()
-
-    enum ValueType
-    {
-        FV_BOOL = 0,
-        FV_INT32 = 1,
-        FV_UINT32 = 2,
-        FV_INT64 = 3,
-        FV_UINT64 = 4,
-        FV_DOUBLE = 5,
-        FV_STRING = 6,
-        FV_MAX_INDEX = 6,
-    };
-    const char * TypeName() const;
-    bool Equal(const FlagValue & x) const;
-    FlagValue * New() const; // creates a new one with default value
-    void CopyFrom(const FlagValue & x);
-    int ValueSize() const;
-
-    // Calls the given validate-fn on value_buffer_, and returns
-    // whatever it returns.  But first casts validate_fn_proto to a
-    // function that takes our value as an argument (eg void
-    // (*validate_fn)(bool) for a bool flag).
-    bool Validate(const char * flagname, ValidateFnProto validate_fn_proto) const;
-
-    void * value_buffer_; // points to the buffer holding our data
-    int8 type_;           // how to interpret value_
-    bool owns_value_;     // whether to free value on destruct
-
-    FlagValue(const FlagValue &); // no copying!
-    void operator=(const FlagValue &);
-};
 
 // --------------------------------------------------------------------
 // CommandLineFlag
@@ -150,7 +78,7 @@ public:
 private:
     // for SetFlagLocked() and setting flags_by_ptr_
     friend class FlagRegistry;
-    friend class JFLAGS_NAMESPACE::FlagSaverImpl; // for cloning the values
+    friend class FlagSaverImpl; // for cloning the values
     // set validate_fn
     friend bool AddFlagValidator(const void *, ValidateFnProto);
 
@@ -242,10 +170,10 @@ public:
     static FlagRegistry * GlobalRegistry(); // returns a singleton registry
 
 private:
-    friend class JFLAGS_NAMESPACE::FlagSaverImpl; // reads all the flags in order
+    friend class FlagSaverImpl; // reads all the flags in order
                                                   // to copy them
     friend class CommandLineFlagParser;           // for ValidateAllFlags
-    friend void JFLAGS_NAMESPACE::GetAllFlags(vector<CommandLineFlagInfo> *);
+    friend void GetAllFlags(vector<CommandLineFlagInfo> *);
 
     // The map from name to flag, for FindFlagLocked().
     typedef map<const char *, CommandLineFlag *, StringCmp> FlagMap;
