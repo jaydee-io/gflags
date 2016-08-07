@@ -5,7 +5,9 @@
 // License. See LICENSE.txt for details.
 ////////////////////////////////////////////////////////////////////////////////
 #include "jflags_env.h"
-#include "jflags_internals.h"
+#include "jflags_error.h"
+#include "FlagValue.h"
+#include "util.h"
 
 namespace JFLAGS_NAMESPACE {
 

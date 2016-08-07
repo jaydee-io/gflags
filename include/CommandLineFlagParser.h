@@ -5,18 +5,11 @@
 // License. See LICENSE.txt for details.
 ////////////////////////////////////////////////////////////////////////////////
 // --------------------------------------------------------------------
-// CommandLineFlagParser
-//    Parsing is done in two stages.  In the first, we go through
-//    argv.  For every flag-like arg we can make sense of, we parse
-//    it and set the appropriate FLAGS_* variable.  For every flag-
-//    like arg we can't make sense of, we store it in a vector,
-//    along with an explanation of the trouble.  In stage 2, we
-//    handle the 'reporting' flags like --help and --mpm_version.
-//    (This is via a call to HandleCommandLineHelpFlags(), in
-//    jflags_reporting.cc.)
-//    An optional stage 3 prints out the error messages.
-//       This is a bit of a simplification.  For instance, --flagfile
-//    is handled as soon as it's seen in stage 1, not in stage 2.
+// CommandLineFlagParser is the class that reads from the commandline
+// and instantiates flag values based on that.  It needs to poke into
+// the innards of the FlagValue->CommandLineFlag->FlagRegistry class
+// hierarchy to do that.  It's careful to acquire the FlagRegistry
+// lock before doing any writing or other non-const actions.
 // --------------------------------------------------------------------
 #ifndef JFLAGS_COMMAND_LINE_FLAG_PARSER_H_
 #define JFLAGS_COMMAND_LINE_FLAG_PARSER_H_
@@ -34,6 +27,18 @@ class CommandLineFlag;
 using std::string;
 using std::map;
 
+// CommandLineFlagParser
+//    Parsing is done in two stages.  In the first, we go through
+//    argv.  For every flag-like arg we can make sense of, we parse
+//    it and set the appropriate FLAGS_* variable.  For every flag-
+//    like arg we can't make sense of, we store it in a vector,
+//    along with an explanation of the trouble.  In stage 2, we
+//    handle the 'reporting' flags like --help and --mpm_version.
+//    (This is via a call to HandleCommandLineHelpFlags(), in
+//    jflags_reporting.cc.)
+//    An optional stage 3 prints out the error messages.
+//       This is a bit of a simplification.  For instance, --flagfile
+//    is handled as soon as it's seen in stage 1, not in stage 2.
 class CommandLineFlagParser
 {
 public:

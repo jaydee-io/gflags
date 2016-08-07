@@ -5,9 +5,13 @@
 // License. See LICENSE.txt for details.
 ////////////////////////////////////////////////////////////////////////////////
 #include "FlagSaver.h"
-#include "jflags_internals.h"
+#include "FlagRegistry.h"
+
+#include <vector>
 
 namespace JFLAGS_NAMESPACE {
+
+using std::vector;
 
 // --------------------------------------------------------------------
 // FlagSaverImpl

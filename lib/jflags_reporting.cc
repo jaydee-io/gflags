@@ -52,6 +52,14 @@ namespace JFLAGS_NAMESPACE {
 using std::string;
 using std::vector;
 
+// The help message indicating that the commandline flag has been
+// 'stripped'. It will not show up when doing "-help" and its
+// variants. The flag is stripped if STRIP_FLAG_HELP is set to 1
+// before including base/jflags.h
+
+// This is used by this file, and also in jflags_reporting.cc
+const char kStrippedFlagHelp[] = "\001\002\003\004 (unknown) \004\003\002\001";
+
 // --------------------------------------------------------------------
 // DescribeOneFlag()
 // DescribeOneFlagInXML()

@@ -51,6 +51,17 @@
 //   methods of this class (when applied to classes), as long as no
 //   other thread is writing to the variable or calling non-const
 //   methods of this class.
+//
+// TODO(jaydee) : Need to find a better place
+// All our command line flags stuff. Here's how everything fits together :
+//
+// * FlagRegistry owns CommandLineFlags owns FlagValue.
+// * FlagSaver holds a FlagRegistry (saves it at construct time,
+//     restores it at destroy time).
+// * CommandLineFlagParser lives outside that hierarchy, but works on
+//     CommandLineFlags (modifying the FlagValues).
+// * Free functions like SetCommandLineOption() work via one of the
+//     above (such as CommandLineFlagParser).
 
 #ifndef JFLAGS_JFLAGS_H_
 #define JFLAGS_JFLAGS_H_

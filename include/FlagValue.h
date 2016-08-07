@@ -4,6 +4,13 @@
 // This file is distributed under the 3-clause Berkeley Software Distribution
 // License. See LICENSE.txt for details.
 ////////////////////////////////////////////////////////////////////////////////
+// --------------------------------------------------------------------
+// FlagValue holds the current value of a flag.  It's
+// pseudo-templatized: every operation on a FlagValue is typed.  It
+// also deals with storage-lifetime issues (so flag values don't go
+// away in a destructor), which is why we need a whole class to hold a
+// variable's value.
+// --------------------------------------------------------------------
 #ifndef JFLAGS_FLAG_VALUE_H_
 #define JFLAGS_FLAG_VALUE_H_
 

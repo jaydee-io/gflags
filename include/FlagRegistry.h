@@ -5,6 +5,18 @@
 // License. See LICENSE.txt for details.
 ////////////////////////////////////////////////////////////////////////////////
 // --------------------------------------------------------------------
+// FlagRegistry is a collection of CommandLineFlags.  There's the
+// global registry, which is where flags defined via DEFINE_foo()
+// live.  But it's possible to define your own flag, manually, in a
+// different registry you create.  (In practice, multiple registries
+// are used only by FlagSaver).
+//
+// A given FlagValue is owned by exactly one CommandLineFlag.  A given
+// CommandLineFlag is owned by exactly one FlagRegistry.  FlagRegistry
+// has a lock; any operation that writes to a FlagValue or
+// CommandLineFlag owned by that registry must acquire the
+// FlagRegistry lock before doing so.
+// --------------------------------------------------------------------
 #ifndef JFLAGS_FLAG_REGISTRY_H_
 #define JFLAGS_FLAG_REGISTRY_H_
 #include "jflags_error.h"

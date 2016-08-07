@@ -93,9 +93,9 @@ add_jflags_test(helpshort_main 1 "${SLASH}jflags_unittest_main.cc:" "${SLASH}jfl
 # --helpon needs an argument
 add_jflags_test(helpon 1 "'--helpon' is missing its argument; flag description: show help on" ""  jflags_unittest  --helpon)
 # --helpon argument indicates what file we'll show args from
-add_jflags_test(helpon=jflags 1 "${SLASH}jflags.cc:" "${SLASH}jflags_unittest.cc:"  jflags_unittest  --helpon=jflags)
+add_jflags_test(helpon=jflags 1 "${SLASH}CommandLineFlagParser.cc:" "${SLASH}jflags_unittest.cc:"  jflags_unittest  --helpon=CommandLineFlagParser)
 # another way of specifying the argument
-add_jflags_test(helpon_jflags 1 "${SLASH}jflags.cc:" "${SLASH}jflags_unittest.cc:"  jflags_unittest  --helpon jflags)
+add_jflags_test(helpon_jflags 1 "${SLASH}CommandLineFlagParser.cc:" "${SLASH}jflags_unittest.cc:"  jflags_unittest  --helpon CommandLineFlagParser)
 # test another argument
 add_jflags_test(helpon=jflags_unittest 1 "${SLASH}jflags_unittest.cc:" "${SLASH}jflags.cc:"  jflags_unittest  --helpon=jflags_unittest)
 

@@ -5,14 +5,18 @@
 // License. See LICENSE.txt for details.
 ////////////////////////////////////////////////////////////////////////////////
 #include "jflags_deprecated.h"
-#include "jflags_internals.h"
+#include "jflags_parser.h"
 #include "FlagSaver.h"
+#include "FlagRegistry.h"
 #include "CommandLineFlagParser.h"
+
 #include <string>
 
 namespace JFLAGS_NAMESPACE {
 
 using std::string;
+
+string ReadFileIntoString(const char * filename);
 
 // --------------------------------------------------------------------
 // CommandlineFlagsIntoString()

@@ -25,7 +25,10 @@ using std::vector;
 // In addition to accessing flags, you can also access argv[0] (the program
 // name) and argv (the entire commandline), which we sock away a copy of.
 // These variables are static, so you should only set them once.
-//
+
+// CommandLineFlagInfo is a client-exposed version of CommandLineFlag.
+// Once it's instantiated, it has no dependencies or relationships
+// with any other part of this file.
 // No need to export this data only structure from DLL, avoiding VS warning
 // 4251.
 struct CommandLineFlagInfo

@@ -21,6 +21,8 @@ namespace JFLAGS_NAMESPACE {
 // These programmatic ways to access flags are thread-safe, but direct
 // access is only thread-compatible.
 
+// GetCommandLineOption is just a hook into registry routines to
+// retrieve a flag based on its name.
 // Return true iff the flagname was found.
 // OUTPUT is set to the flag's value, or unchanged if we return false.
 extern JFLAGS_DLL_DECL bool GetCommandLineOption(const char * name, std::string * OUTPUT);
@@ -54,6 +56,7 @@ enum JFLAGS_DLL_DECL FlagSettingMode
 // not a valid flag name, or the value is not a valid value -- and
 // non-empty else.
 
+// SetCommandLineOption, on the other hand, hooks into CommandLineFlagParser.
 // SetCommandLineOption uses set_mode == SET_FLAGS_VALUE (the common case)
 extern JFLAGS_DLL_DECL std::string SetCommandLineOption(const char * name, const char * value);
 extern JFLAGS_DLL_DECL std::string SetCommandLineOptionWithMode(const char * name, const char * value, FlagSettingMode set_mode);

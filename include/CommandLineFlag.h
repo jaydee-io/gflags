@@ -4,6 +4,11 @@
 // This file is distributed under the 3-clause Berkeley Software Distribution
 // License. See LICENSE.txt for details.
 ////////////////////////////////////////////////////////////////////////////////
+// --------------------------------------------------------------------
+// CommandLineFlag is all the information about a single command-line
+// flag.  It has a FlagValue for the flag's current value, but also
+// the flag's name, type, etc.
+// --------------------------------------------------------------------
 #ifndef JFLAGS_COMMAND_LINE_FLAG_H_
 #define JFLAGS_COMMAND_LINE_FLAG_H_
 #include "FlagValue.h"

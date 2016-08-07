@@ -5,7 +5,9 @@
 // License. See LICENSE.txt for details.
 ////////////////////////////////////////////////////////////////////////////////
 #include "FlagRegisterer.h"
-#include "jflags_internals.h"
+#include "FlagRegistry.h"
+#include "FlagValue.h"
+#include "CommandLineFlag.h"
 
 namespace JFLAGS_NAMESPACE {
 

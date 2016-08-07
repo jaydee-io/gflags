@@ -5,9 +5,13 @@
 // License. See LICENSE.txt for details.
 ////////////////////////////////////////////////////////////////////////////////
 #include "jflags_infos.h"
-#include "jflags_internals.h"
+#include "FlagRegistry.h"
+
+#include <string>
 
 namespace JFLAGS_NAMESPACE {
+
+using std::string;
 
 // --------------------------------------------------------------------
 // GetAllFlags()

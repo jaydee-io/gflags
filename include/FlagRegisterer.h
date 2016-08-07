@@ -4,6 +4,10 @@
 // This file is distributed under the 3-clause Berkeley Software Distribution
 // License. See LICENSE.txt for details.
 ////////////////////////////////////////////////////////////////////////////////
+// --------------------------------------------------------------------
+// FlagRegisterer is the helper class used by the DEFINE_* macros to
+// allow work to be done at global initialization time.
+// --------------------------------------------------------------------
 #ifndef JFLAGS_FLAG_REGISTERER_H_
 #define JFLAGS_FLAG_REGISTERER_H_
 
