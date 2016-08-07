@@ -44,8 +44,11 @@ public:
     FlagSaver();
     ~FlagSaver();
 
+    void discard(void);
+
 private:
     class FlagSaverImpl * impl_; // we use pimpl here to keep API steady
+    bool shouldRestore_;
 
     FlagSaver(const FlagSaver &); // no copying!
     void operator=(const FlagSaver &);

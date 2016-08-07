@@ -6,6 +6,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include "jflags_deprecated.h"
 #include "jflags_internals.h"
+#include "FlagSaver.h"
 #include <string>
 
 namespace JFLAGS_NAMESPACE {
@@ -61,8 +62,7 @@ bool ReadFlagsFromString(const string & flagfilecontents,
                          bool errors_are_fatal)
 {
     FlagRegistry * const registry = FlagRegistry::GlobalRegistry();
-    FlagSaverImpl saved_states(registry);
-    saved_states.SaveFromRegistry();
+    FlagSaver saved_states;
 
     CommandLineFlagParser parser(registry);
     registry->Lock();
@@ -75,9 +75,9 @@ bool ReadFlagsFromString(const string & flagfilecontents,
         // Error.  Restore all global flags to their previous values.
         if (errors_are_fatal)
             jflags_exitfunc(1);
-        saved_states.RestoreToRegistry();
         return false;
     }
+    saved_states.discard();
     return true;
 }
 
