@@ -6,6 +6,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include "jflags_access.h"
 #include "jflags_internals.h"
+#include "CommandLineFlagParser.h"
 
 namespace JFLAGS_NAMESPACE {
 

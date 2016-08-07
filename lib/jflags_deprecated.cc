@@ -7,6 +7,7 @@
 #include "jflags_deprecated.h"
 #include "jflags_internals.h"
 #include "FlagSaver.h"
+#include "CommandLineFlagParser.h"
 #include <string>
 
 namespace JFLAGS_NAMESPACE {

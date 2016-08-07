@@ -364,6 +364,7 @@ set (JFLAGS_SRCS
   "FlagValue.cc"
   "FlagRegistry.cc"
   "CommandLineFlag.cc"
+  "CommandLineFlagParser.cc"
 )
 
 if (OS_WINDOWS)

@@ -6,13 +6,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include "jflags_parser.h"
 #include "jflags_infos.h"
-#include "jflags_internals.h"
+#include "jflags_declare.h" // IWYU pragma: export
+#include "CommandLineFlagParser.h"
+#include "FlagRegistry.h"
 
 // Special flags, type 1: the 'recursive' flags.  They set another flag's val.
-DEFINE_string(flagfile, "", "load flags from file");
-DEFINE_string(fromenv, "", "set flags from the environment"
-                           " [use 'export FLAGS_flag1=value']");
-DEFINE_string(tryfromenv, "", "set flags from the environment if present");
+DECLARE_string(flagfile);
+DECLARE_string(fromenv);
+DECLARE_string(tryfromenv);
 
 namespace JFLAGS_NAMESPACE {
 
