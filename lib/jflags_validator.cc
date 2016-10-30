@@ -7,6 +7,7 @@
 #include "jflags_validator.h"
 #include "FlagRegistry.h"
 
+#include <cstring>
 #include <string>
 
 namespace JFLAGS_NAMESPACE {

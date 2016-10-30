@@ -7,6 +7,8 @@
 #include "CommandLineFlag.h"
 #include "jflags_infos.h"
 
+#include <cstring>
+
 namespace JFLAGS_NAMESPACE {
 
 // --------------------------------------------------------------------

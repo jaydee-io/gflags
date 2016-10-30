@@ -6,6 +6,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include "FlagValue.h"
 #include <assert.h>
+#include <cstring>
 #include <errno.h>
 
 namespace JFLAGS_NAMESPACE {

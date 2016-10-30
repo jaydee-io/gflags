@@ -24,6 +24,7 @@
 #include "CommandLineFlag.h"
 #include "mutex.h"
 
+#include <cstring>
 #include <map>
 #include <string>
 #include <vector>
